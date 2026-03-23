@@ -8,6 +8,8 @@ INPUT_SPEC="${ROOT_DIR}/openapi/public.swagger.json"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "${TMP_DIR}"' EXIT
 
+cd "${ROOT_DIR}"
+
 require_command() {
 	local command="$1"
 	if ! command -v "${command}" >/dev/null 2>&1; then
