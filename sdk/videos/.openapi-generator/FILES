@@ -20,9 +20,6 @@ docs/Image.md
 docs/InternalVideosHandlerSubtitlesLanguageResponse.md
 docs/PaginationPaginatedResponseVideo.md
 docs/PaginationPagination.md
-docs/PostVideosUploadCompleteRequest.md
-docs/PostVideosUploadInitRequest.md
-docs/PutVideosVideoIdChaptersRequest.md
 docs/Subtitle.md
 docs/SubtitleDelete.md
 docs/UpdateChaptersRequest.md
@@ -30,9 +27,15 @@ docs/UpdateChaptersResponse.md
 docs/Video.md
 docs/VideoUploadInitRequest.md
 docs/VideosAPI.md
+docs/VideosUploadCompletePostRequest.md
+docs/VideosUploadInitPostRequest.md
+docs/VideosVideoIdChaptersPutRequest.md
 git_push.sh
 go.mod
 go.sum
+model__videos__video_id__chapters_put_request.go
+model__videos_upload_complete_post_request.go
+model__videos_upload_init_post_request.go
 model_audio_track.go
 model_audio_track_delete.go
 model_chapter.go
@@ -48,9 +51,6 @@ model_image.go
 model_internal_videos_handler_subtitles_language_response.go
 model_pagination_paginated_response_video.go
 model_pagination_pagination.go
-model_post_videos_upload_complete_request.go
-model_post_videos_upload_init_request.go
-model_put_videos_video_id_chapters_request.go
 model_subtitle.go
 model_subtitle_delete.go
 model_update_chapters_request.go

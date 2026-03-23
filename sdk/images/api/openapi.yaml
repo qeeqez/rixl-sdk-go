@@ -18,21 +18,21 @@ externalDocs:
   description: ""
   url: ""
 servers:
-- url: https://api.rixl.com/
+- url: /
 tags:
 - description: "**Deliver fast, perfectly formatted images.**<br><br>RIXL automatically\
     \ handles image optimization, format conversion, and ThumbHash generation. All\
     \ images are served via our global CDN for an ideal user experience."
-  name: images
+  name: Images
 paths:
   /images:
     get:
       description: "Retrieve all images for a specific project, with pagination and\
         \ sorting."
-      operationId: get_images
       parameters:
       - description: Maximum number of items to return in a single request. <br> **Default:**
           `25`
+        example: 25
         explode: true
         in: query
         name: limit
@@ -45,6 +45,7 @@ paths:
         style: form
       - description: "Starting point of the result set. <br>To get page 2 with a limit\
           \ of 25, set `offset` to `25`. <br> **Default:** `0`"
+        example: 0
         explode: true
         in: query
         name: offset
@@ -55,6 +56,7 @@ paths:
           type: integer
         style: form
       - description: "Field to sort by (created_at, name, size, updated_at)"
+        example: created_at
         explode: true
         in: query
         name: sort
@@ -63,6 +65,7 @@ paths:
           type: string
         style: form
       - description: "Sort order (asc, desc)"
+        example: desc
         explode: true
         in: query
         name: order
@@ -106,17 +109,16 @@ paths:
       - ApiKeyAuth: []
       summary: List images for a project
       tags:
-      - images
+      - Images
   /images/upload/complete:
     post:
       description: Complete the upload process and create the image record using API
         key authentication
-      operationId: post_images_upload_complete
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/post_images_upload_complete_request"
+              $ref: "#/components/schemas/_images_upload_complete_post_request"
         description: Upload completion request
         required: true
       responses:
@@ -161,17 +163,16 @@ paths:
       - ApiKeyAuth: []
       summary: "Upload: Mark as complete"
       tags:
-      - images
+      - Images
   /images/upload/init:
     post:
       description: Initialize a presigned URL upload for an image file using API key
         authentication
-      operationId: post_images_upload_init
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/post_images_upload_init_request"
+              $ref: "#/components/schemas/_images_upload_init_post_request"
         description: Upload initialization request
         required: true
       responses:
@@ -210,13 +211,13 @@ paths:
       - ApiKeyAuth: []
       summary: "Upload: Init"
       tags:
-      - images
+      - Images
   /images/{imageId}:
     delete:
       description: delete an image by marking it as deleted
-      operationId: delete_images_imageId
       parameters:
       - description: Image ID
+        example: M1uxRI23XL
         explode: false
         in: path
         name: imageId
@@ -262,12 +263,12 @@ paths:
       - ApiKeyAuth: []
       summary: Delete image
       tags:
-      - images
+      - Images
     get:
       description: Retrieve an image by its ID for a specific project.
-      operationId: get_images_imageId
       parameters:
       - description: Image ID
+        example: M1uxRI23XL
         explode: false
         in: path
         name: imageId
@@ -317,7 +318,7 @@ paths:
       - ApiKeyAuth: []
       summary: Get image
       tags:
-      - images
+      - Images
 components:
   schemas:
     File:
@@ -537,14 +538,14 @@ components:
           example: 1000
           minimum: 0
           type: integer
-    post_images_upload_complete_request:
+    _images_upload_complete_post_request:
       oneOf:
       - type: object
       - allOf:
         - $ref: "#/components/schemas/internal_images_handler.completeRequest"
         description: Upload completion request
         summary: request
-    post_images_upload_init_request:
+    _images_upload_init_post_request:
       oneOf:
       - type: object
       - allOf:
@@ -556,4 +557,9 @@ components:
       description: Internal API key for service-to-service communication.
       in: header
       name: X-API-Key
+      type: apiKey
+    Bearer:
+      description: Type "Bearer" followed by a space and JWT token.
+      in: header
+      name: Authorization
       type: apiKey

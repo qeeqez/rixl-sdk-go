@@ -24,159 +24,7 @@ import (
 // FeedsAPIService FeedsAPI service
 type FeedsAPIService service
 
-type ApiGetFeedsFeedIdRequest struct {
-	ctx context.Context
-	ApiService *FeedsAPIService
-	feedId string
-	limit *int32
-	offset *int32
-}
-
-// Maximum number of items to return in a single request. &lt;br&gt; **Default:** &#x60;25&#x60;
-func (r ApiGetFeedsFeedIdRequest) Limit(limit int32) ApiGetFeedsFeedIdRequest {
-	r.limit = &limit
-	return r
-}
-
-// Starting point of the result set. &lt;br&gt;To get page 2 with a limit of 25, set &#x60;offset&#x60; to &#x60;25&#x60;. &lt;br&gt; **Default:** &#x60;0&#x60;
-func (r ApiGetFeedsFeedIdRequest) Offset(offset int32) ApiGetFeedsFeedIdRequest {
-	r.offset = &offset
-	return r
-}
-
-func (r ApiGetFeedsFeedIdRequest) Execute() (*PaginationPaginatedResponsePost, *http.Response, error) {
-	return r.ApiService.GetFeedsFeedIdExecute(r)
-}
-
-/*
-GetFeedsFeedId List posts in a feed
-
-Retrieve posts in a feed, with pagination.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param feedId Feed ID
- @return ApiGetFeedsFeedIdRequest
-*/
-func (a *FeedsAPIService) GetFeedsFeedId(ctx context.Context, feedId string) ApiGetFeedsFeedIdRequest {
-	return ApiGetFeedsFeedIdRequest{
-		ApiService: a,
-		ctx: ctx,
-		feedId: feedId,
-	}
-}
-
-// Execute executes the request
-//  @return PaginationPaginatedResponsePost
-func (a *FeedsAPIService) GetFeedsFeedIdExecute(r ApiGetFeedsFeedIdRequest) (*PaginationPaginatedResponsePost, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *PaginationPaginatedResponsePost
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeedsAPIService.GetFeedsFeedId")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/feeds/{feedId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"feedId"+"}", url.PathEscape(parameterValueToString(r.feedId, "feedId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
-	} else {
-		var defaultValue int32 = 25
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
-		r.limit = &defaultValue
-	}
-	if r.offset != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "offset", r.offset, "form", "")
-	} else {
-		var defaultValue int32 = 0
-		parameterAddToHeaderOrQuery(localVarQueryParams, "offset", defaultValue, "form", "")
-		r.offset = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiGetFeedsFeedIdCreatorsCreatorIdRequest struct {
+type ApiFeedsFeedIdCreatorsCreatorIdGetRequest struct {
 	ctx context.Context
 	ApiService *FeedsAPIService
 	feedId string
@@ -186,33 +34,33 @@ type ApiGetFeedsFeedIdCreatorsCreatorIdRequest struct {
 }
 
 // Maximum number of items to return in a single request. &lt;br&gt; **Default:** &#x60;25&#x60;
-func (r ApiGetFeedsFeedIdCreatorsCreatorIdRequest) Limit(limit int32) ApiGetFeedsFeedIdCreatorsCreatorIdRequest {
+func (r ApiFeedsFeedIdCreatorsCreatorIdGetRequest) Limit(limit int32) ApiFeedsFeedIdCreatorsCreatorIdGetRequest {
 	r.limit = &limit
 	return r
 }
 
 // Starting point of the result set. &lt;br&gt;To get page 2 with a limit of 25, set &#x60;offset&#x60; to &#x60;25&#x60;. &lt;br&gt; **Default:** &#x60;0&#x60;
-func (r ApiGetFeedsFeedIdCreatorsCreatorIdRequest) Offset(offset int32) ApiGetFeedsFeedIdCreatorsCreatorIdRequest {
+func (r ApiFeedsFeedIdCreatorsCreatorIdGetRequest) Offset(offset int32) ApiFeedsFeedIdCreatorsCreatorIdGetRequest {
 	r.offset = &offset
 	return r
 }
 
-func (r ApiGetFeedsFeedIdCreatorsCreatorIdRequest) Execute() (*PaginationPaginatedResponsePost, *http.Response, error) {
-	return r.ApiService.GetFeedsFeedIdCreatorsCreatorIdExecute(r)
+func (r ApiFeedsFeedIdCreatorsCreatorIdGetRequest) Execute() (*PaginationPaginatedResponsePost, *http.Response, error) {
+	return r.ApiService.FeedsFeedIdCreatorsCreatorIdGetExecute(r)
 }
 
 /*
-GetFeedsFeedIdCreatorsCreatorId List posts by creator
+FeedsFeedIdCreatorsCreatorIdGet List posts by creator
 
 Retrieve posts in a feed by a specific creator, with pagination.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param feedId Feed ID
  @param creatorId Creator ID
- @return ApiGetFeedsFeedIdCreatorsCreatorIdRequest
+ @return ApiFeedsFeedIdCreatorsCreatorIdGetRequest
 */
-func (a *FeedsAPIService) GetFeedsFeedIdCreatorsCreatorId(ctx context.Context, feedId string, creatorId string) ApiGetFeedsFeedIdCreatorsCreatorIdRequest {
-	return ApiGetFeedsFeedIdCreatorsCreatorIdRequest{
+func (a *FeedsAPIService) FeedsFeedIdCreatorsCreatorIdGet(ctx context.Context, feedId string, creatorId string) ApiFeedsFeedIdCreatorsCreatorIdGetRequest {
+	return ApiFeedsFeedIdCreatorsCreatorIdGetRequest{
 		ApiService: a,
 		ctx: ctx,
 		feedId: feedId,
@@ -222,7 +70,7 @@ func (a *FeedsAPIService) GetFeedsFeedIdCreatorsCreatorId(ctx context.Context, f
 
 // Execute executes the request
 //  @return PaginationPaginatedResponsePost
-func (a *FeedsAPIService) GetFeedsFeedIdCreatorsCreatorIdExecute(r ApiGetFeedsFeedIdCreatorsCreatorIdRequest) (*PaginationPaginatedResponsePost, *http.Response, error) {
+func (a *FeedsAPIService) FeedsFeedIdCreatorsCreatorIdGetExecute(r ApiFeedsFeedIdCreatorsCreatorIdGetRequest) (*PaginationPaginatedResponsePost, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -230,7 +78,7 @@ func (a *FeedsAPIService) GetFeedsFeedIdCreatorsCreatorIdExecute(r ApiGetFeedsFe
 		localVarReturnValue  *PaginationPaginatedResponsePost
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeedsAPIService.GetFeedsFeedIdCreatorsCreatorId")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeedsAPIService.FeedsFeedIdCreatorsCreatorIdGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -332,29 +180,181 @@ func (a *FeedsAPIService) GetFeedsFeedIdCreatorsCreatorIdExecute(r ApiGetFeedsFe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetFeedsFeedIdPostIdRequest struct {
+type ApiFeedsFeedIdGetRequest struct {
+	ctx context.Context
+	ApiService *FeedsAPIService
+	feedId string
+	limit *int32
+	offset *int32
+}
+
+// Maximum number of items to return in a single request. &lt;br&gt; **Default:** &#x60;25&#x60;
+func (r ApiFeedsFeedIdGetRequest) Limit(limit int32) ApiFeedsFeedIdGetRequest {
+	r.limit = &limit
+	return r
+}
+
+// Starting point of the result set. &lt;br&gt;To get page 2 with a limit of 25, set &#x60;offset&#x60; to &#x60;25&#x60;. &lt;br&gt; **Default:** &#x60;0&#x60;
+func (r ApiFeedsFeedIdGetRequest) Offset(offset int32) ApiFeedsFeedIdGetRequest {
+	r.offset = &offset
+	return r
+}
+
+func (r ApiFeedsFeedIdGetRequest) Execute() (*PaginationPaginatedResponsePost, *http.Response, error) {
+	return r.ApiService.FeedsFeedIdGetExecute(r)
+}
+
+/*
+FeedsFeedIdGet List posts in a feed
+
+Retrieve posts in a feed, with pagination.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param feedId Feed ID
+ @return ApiFeedsFeedIdGetRequest
+*/
+func (a *FeedsAPIService) FeedsFeedIdGet(ctx context.Context, feedId string) ApiFeedsFeedIdGetRequest {
+	return ApiFeedsFeedIdGetRequest{
+		ApiService: a,
+		ctx: ctx,
+		feedId: feedId,
+	}
+}
+
+// Execute executes the request
+//  @return PaginationPaginatedResponsePost
+func (a *FeedsAPIService) FeedsFeedIdGetExecute(r ApiFeedsFeedIdGetRequest) (*PaginationPaginatedResponsePost, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PaginationPaginatedResponsePost
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeedsAPIService.FeedsFeedIdGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/feeds/{feedId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"feedId"+"}", url.PathEscape(parameterValueToString(r.feedId, "feedId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	} else {
+		var defaultValue int32 = 25
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", defaultValue, "form", "")
+		r.limit = &defaultValue
+	}
+	if r.offset != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "offset", r.offset, "form", "")
+	} else {
+		var defaultValue int32 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "offset", defaultValue, "form", "")
+		r.offset = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiFeedsFeedIdPostIdGetRequest struct {
 	ctx context.Context
 	ApiService *FeedsAPIService
 	feedId string
 	postId string
 }
 
-func (r ApiGetFeedsFeedIdPostIdRequest) Execute() (*Post, *http.Response, error) {
-	return r.ApiService.GetFeedsFeedIdPostIdExecute(r)
+func (r ApiFeedsFeedIdPostIdGetRequest) Execute() (*Post, *http.Response, error) {
+	return r.ApiService.FeedsFeedIdPostIdGetExecute(r)
 }
 
 /*
-GetFeedsFeedIdPostId Get a post
+FeedsFeedIdPostIdGet Get a post
 
 Retrieve a post from feed by its ID
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param feedId Feed ID
  @param postId Post ID
- @return ApiGetFeedsFeedIdPostIdRequest
+ @return ApiFeedsFeedIdPostIdGetRequest
 */
-func (a *FeedsAPIService) GetFeedsFeedIdPostId(ctx context.Context, feedId string, postId string) ApiGetFeedsFeedIdPostIdRequest {
-	return ApiGetFeedsFeedIdPostIdRequest{
+func (a *FeedsAPIService) FeedsFeedIdPostIdGet(ctx context.Context, feedId string, postId string) ApiFeedsFeedIdPostIdGetRequest {
+	return ApiFeedsFeedIdPostIdGetRequest{
 		ApiService: a,
 		ctx: ctx,
 		feedId: feedId,
@@ -364,7 +364,7 @@ func (a *FeedsAPIService) GetFeedsFeedIdPostId(ctx context.Context, feedId strin
 
 // Execute executes the request
 //  @return Post
-func (a *FeedsAPIService) GetFeedsFeedIdPostIdExecute(r ApiGetFeedsFeedIdPostIdRequest) (*Post, *http.Response, error) {
+func (a *FeedsAPIService) FeedsFeedIdPostIdGetExecute(r ApiFeedsFeedIdPostIdGetRequest) (*Post, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -372,7 +372,7 @@ func (a *FeedsAPIService) GetFeedsFeedIdPostIdExecute(r ApiGetFeedsFeedIdPostIdR
 		localVarReturnValue  *Post
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeedsAPIService.GetFeedsFeedIdPostId")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FeedsAPIService.FeedsFeedIdPostIdGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

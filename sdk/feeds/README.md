@@ -78,13 +78,13 @@ ctx = context.WithValue(context.Background(), feeds.ContextOperationServerVariab
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.rixl.com*
+All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FeedsAPI* | [**GetFeedsFeedId**](docs/FeedsAPI.md#getfeedsfeedid) | **Get** /feeds/{feedId} | List posts in a feed
-*FeedsAPI* | [**GetFeedsFeedIdCreatorsCreatorId**](docs/FeedsAPI.md#getfeedsfeedidcreatorscreatorid) | **Get** /feeds/{feedId}/creators/{creatorId} | List posts by creator
-*FeedsAPI* | [**GetFeedsFeedIdPostId**](docs/FeedsAPI.md#getfeedsfeedidpostid) | **Get** /feeds/{feedId}/{postId} | Get a post
+*FeedsAPI* | [**FeedsFeedIdCreatorsCreatorIdGet**](docs/FeedsAPI.md#feedsfeedidcreatorscreatoridget) | **Get** /feeds/{feedId}/creators/{creatorId} | List posts by creator
+*FeedsAPI* | [**FeedsFeedIdGet**](docs/FeedsAPI.md#feedsfeedidget) | **Get** /feeds/{feedId} | List posts in a feed
+*FeedsAPI* | [**FeedsFeedIdPostIdGet**](docs/FeedsAPI.md#feedsfeedidpostidget) | **Get** /feeds/{feedId}/{postId} | Get a post
 
 
 ## Documentation For Models
@@ -122,6 +122,27 @@ auth := context.WithValue(
 		feeds.ContextAPIKeys,
 		map[string]feeds.APIKey{
 			"ApiKeyAuth": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
+### Bearer
+
+- **Type**: API key
+- **API key parameter name**: Authorization
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: Bearer and passed in as the auth context for each request.
+
+Example
+
+```go
+auth := context.WithValue(
+		context.Background(),
+		feeds.ContextAPIKeys,
+		map[string]feeds.APIKey{
+			"Bearer": {Key: "API_KEY_STRING"},
 		},
 	)
 r, err := client.Service.Operation(auth, args)

@@ -78,15 +78,15 @@ ctx = context.WithValue(context.Background(), images.ContextOperationServerVaria
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.rixl.com*
+All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ImagesAPI* | [**DeleteImagesImageId**](docs/ImagesAPI.md#deleteimagesimageid) | **Delete** /images/{imageId} | Delete image
-*ImagesAPI* | [**GetImages**](docs/ImagesAPI.md#getimages) | **Get** /images | List images for a project
-*ImagesAPI* | [**GetImagesImageId**](docs/ImagesAPI.md#getimagesimageid) | **Get** /images/{imageId} | Get image
-*ImagesAPI* | [**PostImagesUploadComplete**](docs/ImagesAPI.md#postimagesuploadcomplete) | **Post** /images/upload/complete | Upload: Mark as complete
-*ImagesAPI* | [**PostImagesUploadInit**](docs/ImagesAPI.md#postimagesuploadinit) | **Post** /images/upload/init | Upload: Init
+*ImagesAPI* | [**ImagesGet**](docs/ImagesAPI.md#imagesget) | **Get** /images | List images for a project
+*ImagesAPI* | [**ImagesImageIdDelete**](docs/ImagesAPI.md#imagesimageiddelete) | **Delete** /images/{imageId} | Delete image
+*ImagesAPI* | [**ImagesImageIdGet**](docs/ImagesAPI.md#imagesimageidget) | **Get** /images/{imageId} | Get image
+*ImagesAPI* | [**ImagesUploadCompletePost**](docs/ImagesAPI.md#imagesuploadcompletepost) | **Post** /images/upload/complete | Upload: Mark as complete
+*ImagesAPI* | [**ImagesUploadInitPost**](docs/ImagesAPI.md#imagesuploadinitpost) | **Post** /images/upload/init | Upload: Init
 
 
 ## Documentation For Models
@@ -95,13 +95,13 @@ Class | Method | HTTP request | Description
  - [FileStatus](docs/FileStatus.md)
  - [GithubComQeeqezApiInternalErrorsErrorResponse](docs/GithubComQeeqezApiInternalErrorsErrorResponse.md)
  - [Image](docs/Image.md)
+ - [ImagesUploadCompletePostRequest](docs/ImagesUploadCompletePostRequest.md)
+ - [ImagesUploadInitPostRequest](docs/ImagesUploadInitPostRequest.md)
  - [InternalImagesHandlerCompleteRequest](docs/InternalImagesHandlerCompleteRequest.md)
  - [InternalImagesHandlerInitResponse](docs/InternalImagesHandlerInitResponse.md)
  - [InternalImagesHandlerUploadInitRequest](docs/InternalImagesHandlerUploadInitRequest.md)
  - [PaginationPaginatedResponseImage](docs/PaginationPaginatedResponseImage.md)
  - [PaginationPagination](docs/PaginationPagination.md)
- - [PostImagesUploadCompleteRequest](docs/PostImagesUploadCompleteRequest.md)
- - [PostImagesUploadInitRequest](docs/PostImagesUploadInitRequest.md)
 
 
 ## Documentation For Authorization
@@ -124,6 +124,27 @@ auth := context.WithValue(
 		images.ContextAPIKeys,
 		map[string]images.APIKey{
 			"ApiKeyAuth": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
+### Bearer
+
+- **Type**: API key
+- **API key parameter name**: Authorization
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: Bearer and passed in as the auth context for each request.
+
+Example
+
+```go
+auth := context.WithValue(
+		context.Background(),
+		images.ContextAPIKeys,
+		map[string]images.APIKey{
+			"Bearer": {Key: "API_KEY_STRING"},
 		},
 	)
 r, err := client.Service.Operation(auth, args)

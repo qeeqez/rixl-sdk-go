@@ -94,7 +94,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "https://api.rixl.com",
+				URL: "",
 				Description: "No description provided",
 			},
 		},

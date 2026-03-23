@@ -24,167 +24,7 @@ import (
 // ImagesAPIService ImagesAPI service
 type ImagesAPIService service
 
-type ApiDeleteImagesImageIdRequest struct {
-	ctx context.Context
-	ApiService *ImagesAPIService
-	imageId string
-}
-
-func (r ApiDeleteImagesImageIdRequest) Execute() (*http.Response, error) {
-	return r.ApiService.DeleteImagesImageIdExecute(r)
-}
-
-/*
-DeleteImagesImageId Delete image
-
-delete an image by marking it as deleted
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param imageId Image ID
- @return ApiDeleteImagesImageIdRequest
-*/
-func (a *ImagesAPIService) DeleteImagesImageId(ctx context.Context, imageId string) ApiDeleteImagesImageIdRequest {
-	return ApiDeleteImagesImageIdRequest{
-		ApiService: a,
-		ctx: ctx,
-		imageId: imageId,
-	}
-}
-
-// Execute executes the request
-func (a *ImagesAPIService) DeleteImagesImageIdExecute(r ApiDeleteImagesImageIdRequest) (*http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.DeleteImagesImageId")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/images/{imageId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"imageId"+"}", url.PathEscape(parameterValueToString(r.imageId, "imageId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-type ApiGetImagesRequest struct {
+type ApiImagesGetRequest struct {
 	ctx context.Context
 	ApiService *ImagesAPIService
 	limit *int32
@@ -194,43 +34,43 @@ type ApiGetImagesRequest struct {
 }
 
 // Maximum number of items to return in a single request. &lt;br&gt; **Default:** &#x60;25&#x60;
-func (r ApiGetImagesRequest) Limit(limit int32) ApiGetImagesRequest {
+func (r ApiImagesGetRequest) Limit(limit int32) ApiImagesGetRequest {
 	r.limit = &limit
 	return r
 }
 
 // Starting point of the result set. &lt;br&gt;To get page 2 with a limit of 25, set &#x60;offset&#x60; to &#x60;25&#x60;. &lt;br&gt; **Default:** &#x60;0&#x60;
-func (r ApiGetImagesRequest) Offset(offset int32) ApiGetImagesRequest {
+func (r ApiImagesGetRequest) Offset(offset int32) ApiImagesGetRequest {
 	r.offset = &offset
 	return r
 }
 
 // Field to sort by (created_at, name, size, updated_at)
-func (r ApiGetImagesRequest) Sort(sort string) ApiGetImagesRequest {
+func (r ApiImagesGetRequest) Sort(sort string) ApiImagesGetRequest {
 	r.sort = &sort
 	return r
 }
 
 // Sort order (asc, desc)
-func (r ApiGetImagesRequest) Order(order string) ApiGetImagesRequest {
+func (r ApiImagesGetRequest) Order(order string) ApiImagesGetRequest {
 	r.order = &order
 	return r
 }
 
-func (r ApiGetImagesRequest) Execute() (*PaginationPaginatedResponseImage, *http.Response, error) {
-	return r.ApiService.GetImagesExecute(r)
+func (r ApiImagesGetRequest) Execute() (*PaginationPaginatedResponseImage, *http.Response, error) {
+	return r.ApiService.ImagesGetExecute(r)
 }
 
 /*
-GetImages List images for a project
+ImagesGet List images for a project
 
 Retrieve all images for a specific project, with pagination and sorting.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetImagesRequest
+ @return ApiImagesGetRequest
 */
-func (a *ImagesAPIService) GetImages(ctx context.Context) ApiGetImagesRequest {
-	return ApiGetImagesRequest{
+func (a *ImagesAPIService) ImagesGet(ctx context.Context) ApiImagesGetRequest {
+	return ApiImagesGetRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -238,7 +78,7 @@ func (a *ImagesAPIService) GetImages(ctx context.Context) ApiGetImagesRequest {
 
 // Execute executes the request
 //  @return PaginationPaginatedResponseImage
-func (a *ImagesAPIService) GetImagesExecute(r ApiGetImagesRequest) (*PaginationPaginatedResponseImage, *http.Response, error) {
+func (a *ImagesAPIService) ImagesGetExecute(r ApiImagesGetRequest) (*PaginationPaginatedResponseImage, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -246,7 +86,7 @@ func (a *ImagesAPIService) GetImagesExecute(r ApiGetImagesRequest) (*PaginationP
 		localVarReturnValue  *PaginationPaginatedResponseImage
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.GetImages")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.ImagesGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -388,27 +228,187 @@ func (a *ImagesAPIService) GetImagesExecute(r ApiGetImagesRequest) (*PaginationP
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetImagesImageIdRequest struct {
+type ApiImagesImageIdDeleteRequest struct {
 	ctx context.Context
 	ApiService *ImagesAPIService
 	imageId string
 }
 
-func (r ApiGetImagesImageIdRequest) Execute() (*Image, *http.Response, error) {
-	return r.ApiService.GetImagesImageIdExecute(r)
+func (r ApiImagesImageIdDeleteRequest) Execute() (*http.Response, error) {
+	return r.ApiService.ImagesImageIdDeleteExecute(r)
 }
 
 /*
-GetImagesImageId Get image
+ImagesImageIdDelete Delete image
+
+delete an image by marking it as deleted
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param imageId Image ID
+ @return ApiImagesImageIdDeleteRequest
+*/
+func (a *ImagesAPIService) ImagesImageIdDelete(ctx context.Context, imageId string) ApiImagesImageIdDeleteRequest {
+	return ApiImagesImageIdDeleteRequest{
+		ApiService: a,
+		ctx: ctx,
+		imageId: imageId,
+	}
+}
+
+// Execute executes the request
+func (a *ImagesAPIService) ImagesImageIdDeleteExecute(r ApiImagesImageIdDeleteRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.ImagesImageIdDelete")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/images/{imageId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"imageId"+"}", url.PathEscape(parameterValueToString(r.imageId, "imageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiImagesImageIdGetRequest struct {
+	ctx context.Context
+	ApiService *ImagesAPIService
+	imageId string
+}
+
+func (r ApiImagesImageIdGetRequest) Execute() (*Image, *http.Response, error) {
+	return r.ApiService.ImagesImageIdGetExecute(r)
+}
+
+/*
+ImagesImageIdGet Get image
 
 Retrieve an image by its ID for a specific project.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param imageId Image ID
- @return ApiGetImagesImageIdRequest
+ @return ApiImagesImageIdGetRequest
 */
-func (a *ImagesAPIService) GetImagesImageId(ctx context.Context, imageId string) ApiGetImagesImageIdRequest {
-	return ApiGetImagesImageIdRequest{
+func (a *ImagesAPIService) ImagesImageIdGet(ctx context.Context, imageId string) ApiImagesImageIdGetRequest {
+	return ApiImagesImageIdGetRequest{
 		ApiService: a,
 		ctx: ctx,
 		imageId: imageId,
@@ -417,7 +417,7 @@ func (a *ImagesAPIService) GetImagesImageId(ctx context.Context, imageId string)
 
 // Execute executes the request
 //  @return Image
-func (a *ImagesAPIService) GetImagesImageIdExecute(r ApiGetImagesImageIdRequest) (*Image, *http.Response, error) {
+func (a *ImagesAPIService) ImagesImageIdGetExecute(r ApiImagesImageIdGetRequest) (*Image, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -425,7 +425,7 @@ func (a *ImagesAPIService) GetImagesImageIdExecute(r ApiGetImagesImageIdRequest)
 		localVarReturnValue  *Image
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.GetImagesImageId")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.ImagesImageIdGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -559,32 +559,32 @@ func (a *ImagesAPIService) GetImagesImageIdExecute(r ApiGetImagesImageIdRequest)
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPostImagesUploadCompleteRequest struct {
+type ApiImagesUploadCompletePostRequest struct {
 	ctx context.Context
 	ApiService *ImagesAPIService
-	postImagesUploadCompleteRequest *PostImagesUploadCompleteRequest
+	imagesUploadCompletePostRequest *ImagesUploadCompletePostRequest
 }
 
 // Upload completion request
-func (r ApiPostImagesUploadCompleteRequest) PostImagesUploadCompleteRequest(postImagesUploadCompleteRequest PostImagesUploadCompleteRequest) ApiPostImagesUploadCompleteRequest {
-	r.postImagesUploadCompleteRequest = &postImagesUploadCompleteRequest
+func (r ApiImagesUploadCompletePostRequest) ImagesUploadCompletePostRequest(imagesUploadCompletePostRequest ImagesUploadCompletePostRequest) ApiImagesUploadCompletePostRequest {
+	r.imagesUploadCompletePostRequest = &imagesUploadCompletePostRequest
 	return r
 }
 
-func (r ApiPostImagesUploadCompleteRequest) Execute() (*Image, *http.Response, error) {
-	return r.ApiService.PostImagesUploadCompleteExecute(r)
+func (r ApiImagesUploadCompletePostRequest) Execute() (*Image, *http.Response, error) {
+	return r.ApiService.ImagesUploadCompletePostExecute(r)
 }
 
 /*
-PostImagesUploadComplete Upload: Mark as complete
+ImagesUploadCompletePost Upload: Mark as complete
 
 Complete the upload process and create the image record using API key authentication
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostImagesUploadCompleteRequest
+ @return ApiImagesUploadCompletePostRequest
 */
-func (a *ImagesAPIService) PostImagesUploadComplete(ctx context.Context) ApiPostImagesUploadCompleteRequest {
-	return ApiPostImagesUploadCompleteRequest{
+func (a *ImagesAPIService) ImagesUploadCompletePost(ctx context.Context) ApiImagesUploadCompletePostRequest {
+	return ApiImagesUploadCompletePostRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -592,7 +592,7 @@ func (a *ImagesAPIService) PostImagesUploadComplete(ctx context.Context) ApiPost
 
 // Execute executes the request
 //  @return Image
-func (a *ImagesAPIService) PostImagesUploadCompleteExecute(r ApiPostImagesUploadCompleteRequest) (*Image, *http.Response, error) {
+func (a *ImagesAPIService) ImagesUploadCompletePostExecute(r ApiImagesUploadCompletePostRequest) (*Image, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -600,7 +600,7 @@ func (a *ImagesAPIService) PostImagesUploadCompleteExecute(r ApiPostImagesUpload
 		localVarReturnValue  *Image
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.PostImagesUploadComplete")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.ImagesUploadCompletePost")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -610,8 +610,8 @@ func (a *ImagesAPIService) PostImagesUploadCompleteExecute(r ApiPostImagesUpload
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.postImagesUploadCompleteRequest == nil {
-		return localVarReturnValue, nil, reportError("postImagesUploadCompleteRequest is required and must be specified")
+	if r.imagesUploadCompletePostRequest == nil {
+		return localVarReturnValue, nil, reportError("imagesUploadCompletePostRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -632,7 +632,7 @@ func (a *ImagesAPIService) PostImagesUploadCompleteExecute(r ApiPostImagesUpload
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.postImagesUploadCompleteRequest
+	localVarPostBody = r.imagesUploadCompletePostRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -738,32 +738,32 @@ func (a *ImagesAPIService) PostImagesUploadCompleteExecute(r ApiPostImagesUpload
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPostImagesUploadInitRequest struct {
+type ApiImagesUploadInitPostRequest struct {
 	ctx context.Context
 	ApiService *ImagesAPIService
-	postImagesUploadInitRequest *PostImagesUploadInitRequest
+	imagesUploadInitPostRequest *ImagesUploadInitPostRequest
 }
 
 // Upload initialization request
-func (r ApiPostImagesUploadInitRequest) PostImagesUploadInitRequest(postImagesUploadInitRequest PostImagesUploadInitRequest) ApiPostImagesUploadInitRequest {
-	r.postImagesUploadInitRequest = &postImagesUploadInitRequest
+func (r ApiImagesUploadInitPostRequest) ImagesUploadInitPostRequest(imagesUploadInitPostRequest ImagesUploadInitPostRequest) ApiImagesUploadInitPostRequest {
+	r.imagesUploadInitPostRequest = &imagesUploadInitPostRequest
 	return r
 }
 
-func (r ApiPostImagesUploadInitRequest) Execute() (*InternalImagesHandlerInitResponse, *http.Response, error) {
-	return r.ApiService.PostImagesUploadInitExecute(r)
+func (r ApiImagesUploadInitPostRequest) Execute() (*InternalImagesHandlerInitResponse, *http.Response, error) {
+	return r.ApiService.ImagesUploadInitPostExecute(r)
 }
 
 /*
-PostImagesUploadInit Upload: Init
+ImagesUploadInitPost Upload: Init
 
 Initialize a presigned URL upload for an image file using API key authentication
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostImagesUploadInitRequest
+ @return ApiImagesUploadInitPostRequest
 */
-func (a *ImagesAPIService) PostImagesUploadInit(ctx context.Context) ApiPostImagesUploadInitRequest {
-	return ApiPostImagesUploadInitRequest{
+func (a *ImagesAPIService) ImagesUploadInitPost(ctx context.Context) ApiImagesUploadInitPostRequest {
+	return ApiImagesUploadInitPostRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -771,7 +771,7 @@ func (a *ImagesAPIService) PostImagesUploadInit(ctx context.Context) ApiPostImag
 
 // Execute executes the request
 //  @return InternalImagesHandlerInitResponse
-func (a *ImagesAPIService) PostImagesUploadInitExecute(r ApiPostImagesUploadInitRequest) (*InternalImagesHandlerInitResponse, *http.Response, error) {
+func (a *ImagesAPIService) ImagesUploadInitPostExecute(r ApiImagesUploadInitPostRequest) (*InternalImagesHandlerInitResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -779,7 +779,7 @@ func (a *ImagesAPIService) PostImagesUploadInitExecute(r ApiPostImagesUploadInit
 		localVarReturnValue  *InternalImagesHandlerInitResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.PostImagesUploadInit")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImagesAPIService.ImagesUploadInitPost")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -789,8 +789,8 @@ func (a *ImagesAPIService) PostImagesUploadInitExecute(r ApiPostImagesUploadInit
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.postImagesUploadInitRequest == nil {
-		return localVarReturnValue, nil, reportError("postImagesUploadInitRequest is required and must be specified")
+	if r.imagesUploadInitPostRequest == nil {
+		return localVarReturnValue, nil, reportError("imagesUploadInitPostRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -811,7 +811,7 @@ func (a *ImagesAPIService) PostImagesUploadInitExecute(r ApiPostImagesUploadInit
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.postImagesUploadInitRequest
+	localVarPostBody = r.imagesUploadInitPostRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

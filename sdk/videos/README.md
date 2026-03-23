@@ -78,29 +78,29 @@ ctx = context.WithValue(context.Background(), videos.ContextOperationServerVaria
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.rixl.com*
+All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*VideosAPI* | [**DeleteVideosVideoIdAudioTracks**](docs/VideosAPI.md#deletevideosvideoidaudiotracks) | **Delete** /videos/{videoId}/audio-tracks | Delete all audio tracks
-*VideosAPI* | [**DeleteVideosVideoIdAudioTracksLangCode**](docs/VideosAPI.md#deletevideosvideoidaudiotrackslangcode) | **Delete** /videos/{videoId}/audio-tracks/{lang_code} | Delete audio track by language
-*VideosAPI* | [**DeleteVideosVideoIdAudioTracksTrackId**](docs/VideosAPI.md#deletevideosvideoidaudiotrackstrackid) | **Delete** /videos/{videoId}/audio-tracks/{trackId} | Delete audio track
-*VideosAPI* | [**DeleteVideosVideoIdChapters**](docs/VideosAPI.md#deletevideosvideoidchapters) | **Delete** /videos/{videoId}/chapters | Delete video chapters
-*VideosAPI* | [**DeleteVideosVideoIdDelete**](docs/VideosAPI.md#deletevideosvideoiddelete) | **Delete** /videos/{videoId}/delete | Delete video
-*VideosAPI* | [**DeleteVideosVideoIdSubtitles**](docs/VideosAPI.md#deletevideosvideoidsubtitles) | **Delete** /videos/{videoId}/subtitles | Delete all subtitles
-*VideosAPI* | [**DeleteVideosVideoIdSubtitlesLangCode**](docs/VideosAPI.md#deletevideosvideoidsubtitleslangcode) | **Delete** /videos/{videoId}/subtitles/{lang_code} | Delete subtitle by language
-*VideosAPI* | [**DeleteVideosVideoIdSubtitlesSubtitleId**](docs/VideosAPI.md#deletevideosvideoidsubtitlessubtitleid) | **Delete** /videos/{videoId}/subtitles/{subtitleId} | Delete subtitle
-*VideosAPI* | [**GetVideos**](docs/VideosAPI.md#getvideos) | **Get** /videos | List videos for a project
-*VideosAPI* | [**GetVideosLanguages**](docs/VideosAPI.md#getvideoslanguages) | **Get** /videos/languages | List available subtitle languages
-*VideosAPI* | [**GetVideosVideoId**](docs/VideosAPI.md#getvideosvideoid) | **Get** /videos/{videoId} | Get a video
-*VideosAPI* | [**PostVideosUploadComplete**](docs/VideosAPI.md#postvideosuploadcomplete) | **Post** /videos/upload/complete | Upload: Mark as complete
-*VideosAPI* | [**PostVideosUploadInit**](docs/VideosAPI.md#postvideosuploadinit) | **Post** /videos/upload/init | Upload: Init
-*VideosAPI* | [**PostVideosVideoIdAudioTracks**](docs/VideosAPI.md#postvideosvideoidaudiotracks) | **Post** /videos/{videoId}/audio-tracks | Bulk upsert video audio tracks
-*VideosAPI* | [**PostVideosVideoIdSubtitles**](docs/VideosAPI.md#postvideosvideoidsubtitles) | **Post** /videos/{videoId}/subtitles | Bulk upsert video subtitles
-*VideosAPI* | [**PutVideosVideoIdAudioTracksLangCode**](docs/VideosAPI.md#putvideosvideoidaudiotrackslangcode) | **Put** /videos/{videoId}/audio-tracks/{lang_code} | Upsert video audio track
-*VideosAPI* | [**PutVideosVideoIdChapters**](docs/VideosAPI.md#putvideosvideoidchapters) | **Put** /videos/{videoId}/chapters | Update video chapters
-*VideosAPI* | [**PutVideosVideoIdSubtitlesLangCode**](docs/VideosAPI.md#putvideosvideoidsubtitleslangcode) | **Put** /videos/{videoId}/subtitles/{lang_code} | Upsert video subtitle
-*VideosAPI* | [**PutVideosVideoIdThumbnail**](docs/VideosAPI.md#putvideosvideoidthumbnail) | **Put** /videos/{videoId}/thumbnail | Update video thumbnail
+*VideosAPI* | [**VideosGet**](docs/VideosAPI.md#videosget) | **Get** /videos | List videos for a project
+*VideosAPI* | [**VideosLanguagesGet**](docs/VideosAPI.md#videoslanguagesget) | **Get** /videos/languages | List available subtitle languages
+*VideosAPI* | [**VideosUploadCompletePost**](docs/VideosAPI.md#videosuploadcompletepost) | **Post** /videos/upload/complete | Upload: Mark as complete
+*VideosAPI* | [**VideosUploadInitPost**](docs/VideosAPI.md#videosuploadinitpost) | **Post** /videos/upload/init | Upload: Init
+*VideosAPI* | [**VideosVideoIdAudioTracksDelete**](docs/VideosAPI.md#videosvideoidaudiotracksdelete) | **Delete** /videos/{videoId}/audio-tracks | Delete all audio tracks
+*VideosAPI* | [**VideosVideoIdAudioTracksLangCodeDelete**](docs/VideosAPI.md#videosvideoidaudiotrackslangcodedelete) | **Delete** /videos/{videoId}/audio-tracks/{lang_code} | Delete audio track by language
+*VideosAPI* | [**VideosVideoIdAudioTracksLangCodePut**](docs/VideosAPI.md#videosvideoidaudiotrackslangcodeput) | **Put** /videos/{videoId}/audio-tracks/{lang_code} | Upsert video audio track
+*VideosAPI* | [**VideosVideoIdAudioTracksPost**](docs/VideosAPI.md#videosvideoidaudiotrackspost) | **Post** /videos/{videoId}/audio-tracks | Bulk upsert video audio tracks
+*VideosAPI* | [**VideosVideoIdAudioTracksTrackIdDelete**](docs/VideosAPI.md#videosvideoidaudiotrackstrackiddelete) | **Delete** /videos/{videoId}/audio-tracks/{trackId} | Delete audio track
+*VideosAPI* | [**VideosVideoIdChaptersDelete**](docs/VideosAPI.md#videosvideoidchaptersdelete) | **Delete** /videos/{videoId}/chapters | Delete video chapters
+*VideosAPI* | [**VideosVideoIdChaptersPut**](docs/VideosAPI.md#videosvideoidchaptersput) | **Put** /videos/{videoId}/chapters | Update video chapters
+*VideosAPI* | [**VideosVideoIdDeleteDelete**](docs/VideosAPI.md#videosvideoiddeletedelete) | **Delete** /videos/{videoId}/delete | Delete video
+*VideosAPI* | [**VideosVideoIdGet**](docs/VideosAPI.md#videosvideoidget) | **Get** /videos/{videoId} | Get a video
+*VideosAPI* | [**VideosVideoIdSubtitlesDelete**](docs/VideosAPI.md#videosvideoidsubtitlesdelete) | **Delete** /videos/{videoId}/subtitles | Delete all subtitles
+*VideosAPI* | [**VideosVideoIdSubtitlesLangCodeDelete**](docs/VideosAPI.md#videosvideoidsubtitleslangcodedelete) | **Delete** /videos/{videoId}/subtitles/{lang_code} | Delete subtitle by language
+*VideosAPI* | [**VideosVideoIdSubtitlesLangCodePut**](docs/VideosAPI.md#videosvideoidsubtitleslangcodeput) | **Put** /videos/{videoId}/subtitles/{lang_code} | Upsert video subtitle
+*VideosAPI* | [**VideosVideoIdSubtitlesPost**](docs/VideosAPI.md#videosvideoidsubtitlespost) | **Post** /videos/{videoId}/subtitles | Bulk upsert video subtitles
+*VideosAPI* | [**VideosVideoIdSubtitlesSubtitleIdDelete**](docs/VideosAPI.md#videosvideoidsubtitlessubtitleiddelete) | **Delete** /videos/{videoId}/subtitles/{subtitleId} | Delete subtitle
+*VideosAPI* | [**VideosVideoIdThumbnailPut**](docs/VideosAPI.md#videosvideoidthumbnailput) | **Put** /videos/{videoId}/thumbnail | Update video thumbnail
 
 
 ## Documentation For Models
@@ -120,15 +120,15 @@ Class | Method | HTTP request | Description
  - [InternalVideosHandlerSubtitlesLanguageResponse](docs/InternalVideosHandlerSubtitlesLanguageResponse.md)
  - [PaginationPaginatedResponseVideo](docs/PaginationPaginatedResponseVideo.md)
  - [PaginationPagination](docs/PaginationPagination.md)
- - [PostVideosUploadCompleteRequest](docs/PostVideosUploadCompleteRequest.md)
- - [PostVideosUploadInitRequest](docs/PostVideosUploadInitRequest.md)
- - [PutVideosVideoIdChaptersRequest](docs/PutVideosVideoIdChaptersRequest.md)
  - [Subtitle](docs/Subtitle.md)
  - [SubtitleDelete](docs/SubtitleDelete.md)
  - [UpdateChaptersRequest](docs/UpdateChaptersRequest.md)
  - [UpdateChaptersResponse](docs/UpdateChaptersResponse.md)
  - [Video](docs/Video.md)
  - [VideoUploadInitRequest](docs/VideoUploadInitRequest.md)
+ - [VideosUploadCompletePostRequest](docs/VideosUploadCompletePostRequest.md)
+ - [VideosUploadInitPostRequest](docs/VideosUploadInitPostRequest.md)
+ - [VideosVideoIdChaptersPutRequest](docs/VideosVideoIdChaptersPutRequest.md)
 
 
 ## Documentation For Authorization
@@ -151,6 +151,27 @@ auth := context.WithValue(
 		videos.ContextAPIKeys,
 		map[string]videos.APIKey{
 			"ApiKeyAuth": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
+### Bearer
+
+- **Type**: API key
+- **API key parameter name**: Authorization
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: Bearer and passed in as the auth context for each request.
+
+Example
+
+```go
+auth := context.WithValue(
+		context.Background(),
+		videos.ContextAPIKeys,
+		map[string]videos.APIKey{
+			"Bearer": {Key: "API_KEY_STRING"},
 		},
 	)
 r, err := client.Service.Operation(auth, args)

@@ -24,1131 +24,7 @@ import (
 // VideosAPIService VideosAPI service
 type VideosAPIService service
 
-type ApiDeleteVideosVideoIdAudioTracksRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-}
-
-func (r ApiDeleteVideosVideoIdAudioTracksRequest) Execute() (*AudioTrackDelete, *http.Response, error) {
-	return r.ApiService.DeleteVideosVideoIdAudioTracksExecute(r)
-}
-
-/*
-DeleteVideosVideoIdAudioTracks Delete all audio tracks
-
-Remove all additional audio tracks from a video using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @return ApiDeleteVideosVideoIdAudioTracksRequest
-*/
-func (a *VideosAPIService) DeleteVideosVideoIdAudioTracks(ctx context.Context, videoId string) ApiDeleteVideosVideoIdAudioTracksRequest {
-	return ApiDeleteVideosVideoIdAudioTracksRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-	}
-}
-
-// Execute executes the request
-//  @return AudioTrackDelete
-func (a *VideosAPIService) DeleteVideosVideoIdAudioTracksExecute(r ApiDeleteVideosVideoIdAudioTracksRequest) (*AudioTrackDelete, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AudioTrackDelete
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.DeleteVideosVideoIdAudioTracks")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiDeleteVideosVideoIdAudioTracksLangCodeRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-	langCode string
-}
-
-func (r ApiDeleteVideosVideoIdAudioTracksLangCodeRequest) Execute() (*AudioTrackDelete, *http.Response, error) {
-	return r.ApiService.DeleteVideosVideoIdAudioTracksLangCodeExecute(r)
-}
-
-/*
-DeleteVideosVideoIdAudioTracksLangCode Delete audio track by language
-
-Remove an audio track for a specific language using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @param langCode Language Code (BCP 47)
- @return ApiDeleteVideosVideoIdAudioTracksLangCodeRequest
-*/
-func (a *VideosAPIService) DeleteVideosVideoIdAudioTracksLangCode(ctx context.Context, videoId string, langCode string) ApiDeleteVideosVideoIdAudioTracksLangCodeRequest {
-	return ApiDeleteVideosVideoIdAudioTracksLangCodeRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-		langCode: langCode,
-	}
-}
-
-// Execute executes the request
-//  @return AudioTrackDelete
-func (a *VideosAPIService) DeleteVideosVideoIdAudioTracksLangCodeExecute(r ApiDeleteVideosVideoIdAudioTracksLangCodeRequest) (*AudioTrackDelete, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AudioTrackDelete
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.DeleteVideosVideoIdAudioTracksLangCode")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks/{lang_code}"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"lang_code"+"}", url.PathEscape(parameterValueToString(r.langCode, "langCode")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiDeleteVideosVideoIdAudioTracksTrackIdRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-	trackId string
-}
-
-func (r ApiDeleteVideosVideoIdAudioTracksTrackIdRequest) Execute() (*AudioTrackDelete, *http.Response, error) {
-	return r.ApiService.DeleteVideosVideoIdAudioTracksTrackIdExecute(r)
-}
-
-/*
-DeleteVideosVideoIdAudioTracksTrackId Delete audio track
-
-Remove an additional audio track from a video using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @param trackId Audio Track ID
- @return ApiDeleteVideosVideoIdAudioTracksTrackIdRequest
-*/
-func (a *VideosAPIService) DeleteVideosVideoIdAudioTracksTrackId(ctx context.Context, videoId string, trackId string) ApiDeleteVideosVideoIdAudioTracksTrackIdRequest {
-	return ApiDeleteVideosVideoIdAudioTracksTrackIdRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-		trackId: trackId,
-	}
-}
-
-// Execute executes the request
-//  @return AudioTrackDelete
-func (a *VideosAPIService) DeleteVideosVideoIdAudioTracksTrackIdExecute(r ApiDeleteVideosVideoIdAudioTracksTrackIdRequest) (*AudioTrackDelete, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *AudioTrackDelete
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.DeleteVideosVideoIdAudioTracksTrackId")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks/{trackId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"trackId"+"}", url.PathEscape(parameterValueToString(r.trackId, "trackId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiDeleteVideosVideoIdChaptersRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-}
-
-func (r ApiDeleteVideosVideoIdChaptersRequest) Execute() (*UpdateChaptersResponse, *http.Response, error) {
-	return r.ApiService.DeleteVideosVideoIdChaptersExecute(r)
-}
-
-/*
-DeleteVideosVideoIdChapters Delete video chapters
-
-Remove all chapters from a video using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @return ApiDeleteVideosVideoIdChaptersRequest
-*/
-func (a *VideosAPIService) DeleteVideosVideoIdChapters(ctx context.Context, videoId string) ApiDeleteVideosVideoIdChaptersRequest {
-	return ApiDeleteVideosVideoIdChaptersRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-	}
-}
-
-// Execute executes the request
-//  @return UpdateChaptersResponse
-func (a *VideosAPIService) DeleteVideosVideoIdChaptersExecute(r ApiDeleteVideosVideoIdChaptersRequest) (*UpdateChaptersResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *UpdateChaptersResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.DeleteVideosVideoIdChapters")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/chapters"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiDeleteVideosVideoIdDeleteRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-}
-
-func (r ApiDeleteVideosVideoIdDeleteRequest) Execute() (*http.Response, error) {
-	return r.ApiService.DeleteVideosVideoIdDeleteExecute(r)
-}
-
-/*
-DeleteVideosVideoIdDelete Delete video
-
-Delete a video by its ID within a project
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @return ApiDeleteVideosVideoIdDeleteRequest
-*/
-func (a *VideosAPIService) DeleteVideosVideoIdDelete(ctx context.Context, videoId string) ApiDeleteVideosVideoIdDeleteRequest {
-	return ApiDeleteVideosVideoIdDeleteRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-	}
-}
-
-// Execute executes the request
-func (a *VideosAPIService) DeleteVideosVideoIdDeleteExecute(r ApiDeleteVideosVideoIdDeleteRequest) (*http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.DeleteVideosVideoIdDelete")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/delete"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-type ApiDeleteVideosVideoIdSubtitlesRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-}
-
-func (r ApiDeleteVideosVideoIdSubtitlesRequest) Execute() (*SubtitleDelete, *http.Response, error) {
-	return r.ApiService.DeleteVideosVideoIdSubtitlesExecute(r)
-}
-
-/*
-DeleteVideosVideoIdSubtitles Delete all subtitles
-
-Remove all subtitles from a video using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @return ApiDeleteVideosVideoIdSubtitlesRequest
-*/
-func (a *VideosAPIService) DeleteVideosVideoIdSubtitles(ctx context.Context, videoId string) ApiDeleteVideosVideoIdSubtitlesRequest {
-	return ApiDeleteVideosVideoIdSubtitlesRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-	}
-}
-
-// Execute executes the request
-//  @return SubtitleDelete
-func (a *VideosAPIService) DeleteVideosVideoIdSubtitlesExecute(r ApiDeleteVideosVideoIdSubtitlesRequest) (*SubtitleDelete, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SubtitleDelete
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.DeleteVideosVideoIdSubtitles")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/subtitles"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiDeleteVideosVideoIdSubtitlesLangCodeRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-	langCode string
-}
-
-func (r ApiDeleteVideosVideoIdSubtitlesLangCodeRequest) Execute() (*SubtitleDelete, *http.Response, error) {
-	return r.ApiService.DeleteVideosVideoIdSubtitlesLangCodeExecute(r)
-}
-
-/*
-DeleteVideosVideoIdSubtitlesLangCode Delete subtitle by language
-
-Remove a subtitle for a specific language using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @param langCode Language Code (BCP 47)
- @return ApiDeleteVideosVideoIdSubtitlesLangCodeRequest
-*/
-func (a *VideosAPIService) DeleteVideosVideoIdSubtitlesLangCode(ctx context.Context, videoId string, langCode string) ApiDeleteVideosVideoIdSubtitlesLangCodeRequest {
-	return ApiDeleteVideosVideoIdSubtitlesLangCodeRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-		langCode: langCode,
-	}
-}
-
-// Execute executes the request
-//  @return SubtitleDelete
-func (a *VideosAPIService) DeleteVideosVideoIdSubtitlesLangCodeExecute(r ApiDeleteVideosVideoIdSubtitlesLangCodeRequest) (*SubtitleDelete, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SubtitleDelete
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.DeleteVideosVideoIdSubtitlesLangCode")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/subtitles/{lang_code}"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"lang_code"+"}", url.PathEscape(parameterValueToString(r.langCode, "langCode")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiDeleteVideosVideoIdSubtitlesSubtitleIdRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-	subtitleId string
-}
-
-func (r ApiDeleteVideosVideoIdSubtitlesSubtitleIdRequest) Execute() (*SubtitleDelete, *http.Response, error) {
-	return r.ApiService.DeleteVideosVideoIdSubtitlesSubtitleIdExecute(r)
-}
-
-/*
-DeleteVideosVideoIdSubtitlesSubtitleId Delete subtitle
-
-Remove a subtitle from a video using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @param subtitleId Subtitle ID
- @return ApiDeleteVideosVideoIdSubtitlesSubtitleIdRequest
-*/
-func (a *VideosAPIService) DeleteVideosVideoIdSubtitlesSubtitleId(ctx context.Context, videoId string, subtitleId string) ApiDeleteVideosVideoIdSubtitlesSubtitleIdRequest {
-	return ApiDeleteVideosVideoIdSubtitlesSubtitleIdRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-		subtitleId: subtitleId,
-	}
-}
-
-// Execute executes the request
-//  @return SubtitleDelete
-func (a *VideosAPIService) DeleteVideosVideoIdSubtitlesSubtitleIdExecute(r ApiDeleteVideosVideoIdSubtitlesSubtitleIdRequest) (*SubtitleDelete, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SubtitleDelete
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.DeleteVideosVideoIdSubtitlesSubtitleId")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/subtitles/{subtitleId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"subtitleId"+"}", url.PathEscape(parameterValueToString(r.subtitleId, "subtitleId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiGetVideosRequest struct {
+type ApiVideosGetRequest struct {
 	ctx context.Context
 	ApiService *VideosAPIService
 	limit *int32
@@ -1158,43 +34,43 @@ type ApiGetVideosRequest struct {
 }
 
 // Maximum number of items to return in a single request. &lt;br&gt; **Default:** &#x60;25&#x60;
-func (r ApiGetVideosRequest) Limit(limit int32) ApiGetVideosRequest {
+func (r ApiVideosGetRequest) Limit(limit int32) ApiVideosGetRequest {
 	r.limit = &limit
 	return r
 }
 
 // Starting point of the result set. &lt;br&gt;To get page 2 with a limit of 25, set &#x60;offset&#x60; to &#x60;25&#x60;. &lt;br&gt; **Default:** &#x60;0&#x60;
-func (r ApiGetVideosRequest) Offset(offset int32) ApiGetVideosRequest {
+func (r ApiVideosGetRequest) Offset(offset int32) ApiVideosGetRequest {
 	r.offset = &offset
 	return r
 }
 
 // Field to sort by (created_at, name, size, updated_at, duration)
-func (r ApiGetVideosRequest) Sort(sort string) ApiGetVideosRequest {
+func (r ApiVideosGetRequest) Sort(sort string) ApiVideosGetRequest {
 	r.sort = &sort
 	return r
 }
 
 // Sort order (asc, desc)
-func (r ApiGetVideosRequest) Order(order string) ApiGetVideosRequest {
+func (r ApiVideosGetRequest) Order(order string) ApiVideosGetRequest {
 	r.order = &order
 	return r
 }
 
-func (r ApiGetVideosRequest) Execute() (*PaginationPaginatedResponseVideo, *http.Response, error) {
-	return r.ApiService.GetVideosExecute(r)
+func (r ApiVideosGetRequest) Execute() (*PaginationPaginatedResponseVideo, *http.Response, error) {
+	return r.ApiService.VideosGetExecute(r)
 }
 
 /*
-GetVideos List videos for a project
+VideosGet List videos for a project
 
 Retrieve all videos for a specific project, with pagination and sorting.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetVideosRequest
+ @return ApiVideosGetRequest
 */
-func (a *VideosAPIService) GetVideos(ctx context.Context) ApiGetVideosRequest {
-	return ApiGetVideosRequest{
+func (a *VideosAPIService) VideosGet(ctx context.Context) ApiVideosGetRequest {
+	return ApiVideosGetRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -1202,7 +78,7 @@ func (a *VideosAPIService) GetVideos(ctx context.Context) ApiGetVideosRequest {
 
 // Execute executes the request
 //  @return PaginationPaginatedResponseVideo
-func (a *VideosAPIService) GetVideosExecute(r ApiGetVideosRequest) (*PaginationPaginatedResponseVideo, *http.Response, error) {
+func (a *VideosAPIService) VideosGetExecute(r ApiVideosGetRequest) (*PaginationPaginatedResponseVideo, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1210,7 +86,7 @@ func (a *VideosAPIService) GetVideosExecute(r ApiGetVideosRequest) (*PaginationP
 		localVarReturnValue  *PaginationPaginatedResponseVideo
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.GetVideos")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1352,25 +228,25 @@ func (a *VideosAPIService) GetVideosExecute(r ApiGetVideosRequest) (*PaginationP
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetVideosLanguagesRequest struct {
+type ApiVideosLanguagesGetRequest struct {
 	ctx context.Context
 	ApiService *VideosAPIService
 }
 
-func (r ApiGetVideosLanguagesRequest) Execute() ([]InternalVideosHandlerSubtitlesLanguageResponse, *http.Response, error) {
-	return r.ApiService.GetVideosLanguagesExecute(r)
+func (r ApiVideosLanguagesGetRequest) Execute() ([]InternalVideosHandlerSubtitlesLanguageResponse, *http.Response, error) {
+	return r.ApiService.VideosLanguagesGetExecute(r)
 }
 
 /*
-GetVideosLanguages List available subtitle languages
+VideosLanguagesGet List available subtitle languages
 
 Get list of supported languages for subtitles
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetVideosLanguagesRequest
+ @return ApiVideosLanguagesGetRequest
 */
-func (a *VideosAPIService) GetVideosLanguages(ctx context.Context) ApiGetVideosLanguagesRequest {
-	return ApiGetVideosLanguagesRequest{
+func (a *VideosAPIService) VideosLanguagesGet(ctx context.Context) ApiVideosLanguagesGetRequest {
+	return ApiVideosLanguagesGetRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -1378,7 +254,7 @@ func (a *VideosAPIService) GetVideosLanguages(ctx context.Context) ApiGetVideosL
 
 // Execute executes the request
 //  @return []InternalVideosHandlerSubtitlesLanguageResponse
-func (a *VideosAPIService) GetVideosLanguagesExecute(r ApiGetVideosLanguagesRequest) ([]InternalVideosHandlerSubtitlesLanguageResponse, *http.Response, error) {
+func (a *VideosAPIService) VideosLanguagesGetExecute(r ApiVideosLanguagesGetRequest) ([]InternalVideosHandlerSubtitlesLanguageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1386,7 +262,7 @@ func (a *VideosAPIService) GetVideosLanguagesExecute(r ApiGetVideosLanguagesRequ
 		localVarReturnValue  []InternalVideosHandlerSubtitlesLanguageResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.GetVideosLanguages")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosLanguagesGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1451,27 +327,1517 @@ func (a *VideosAPIService) GetVideosLanguagesExecute(r ApiGetVideosLanguagesRequ
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetVideosVideoIdRequest struct {
+type ApiVideosUploadCompletePostRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videosUploadCompletePostRequest *VideosUploadCompletePostRequest
+}
+
+// Video upload completion request
+func (r ApiVideosUploadCompletePostRequest) VideosUploadCompletePostRequest(videosUploadCompletePostRequest VideosUploadCompletePostRequest) ApiVideosUploadCompletePostRequest {
+	r.videosUploadCompletePostRequest = &videosUploadCompletePostRequest
+	return r
+}
+
+func (r ApiVideosUploadCompletePostRequest) Execute() (*Video, *http.Response, error) {
+	return r.ApiService.VideosUploadCompletePostExecute(r)
+}
+
+/*
+VideosUploadCompletePost Upload: Mark as complete
+
+Mark a video upload as complete after successful upload to storage using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiVideosUploadCompletePostRequest
+*/
+func (a *VideosAPIService) VideosUploadCompletePost(ctx context.Context) ApiVideosUploadCompletePostRequest {
+	return ApiVideosUploadCompletePostRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return Video
+func (a *VideosAPIService) VideosUploadCompletePostExecute(r ApiVideosUploadCompletePostRequest) (*Video, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *Video
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosUploadCompletePost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/upload/complete"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.videosUploadCompletePostRequest == nil {
+		return localVarReturnValue, nil, reportError("videosUploadCompletePostRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.videosUploadCompletePostRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosUploadInitPostRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videosUploadInitPostRequest *VideosUploadInitPostRequest
+}
+
+// Video upload initialization request
+func (r ApiVideosUploadInitPostRequest) VideosUploadInitPostRequest(videosUploadInitPostRequest VideosUploadInitPostRequest) ApiVideosUploadInitPostRequest {
+	r.videosUploadInitPostRequest = &videosUploadInitPostRequest
+	return r
+}
+
+func (r ApiVideosUploadInitPostRequest) Execute() (*GithubComQeeqezApiInternalVideosHandlerUploadInitResponse, *http.Response, error) {
+	return r.ApiService.VideosUploadInitPostExecute(r)
+}
+
+/*
+VideosUploadInitPost Upload: Init
+
+Initialize a video upload and get presigned URLs for video and poster using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiVideosUploadInitPostRequest
+*/
+func (a *VideosAPIService) VideosUploadInitPost(ctx context.Context) ApiVideosUploadInitPostRequest {
+	return ApiVideosUploadInitPostRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return GithubComQeeqezApiInternalVideosHandlerUploadInitResponse
+func (a *VideosAPIService) VideosUploadInitPostExecute(r ApiVideosUploadInitPostRequest) (*GithubComQeeqezApiInternalVideosHandlerUploadInitResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GithubComQeeqezApiInternalVideosHandlerUploadInitResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosUploadInitPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/upload/init"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.videosUploadInitPostRequest == nil {
+		return localVarReturnValue, nil, reportError("videosUploadInitPostRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.videosUploadInitPostRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdAudioTracksDeleteRequest struct {
 	ctx context.Context
 	ApiService *VideosAPIService
 	videoId string
 }
 
-func (r ApiGetVideosVideoIdRequest) Execute() (*Video, *http.Response, error) {
-	return r.ApiService.GetVideosVideoIdExecute(r)
+func (r ApiVideosVideoIdAudioTracksDeleteRequest) Execute() (*AudioTrackDelete, *http.Response, error) {
+	return r.ApiService.VideosVideoIdAudioTracksDeleteExecute(r)
 }
 
 /*
-GetVideosVideoId Get a video
+VideosVideoIdAudioTracksDelete Delete all audio tracks
+
+Remove all additional audio tracks from a video using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @return ApiVideosVideoIdAudioTracksDeleteRequest
+*/
+func (a *VideosAPIService) VideosVideoIdAudioTracksDelete(ctx context.Context, videoId string) ApiVideosVideoIdAudioTracksDeleteRequest {
+	return ApiVideosVideoIdAudioTracksDeleteRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+	}
+}
+
+// Execute executes the request
+//  @return AudioTrackDelete
+func (a *VideosAPIService) VideosVideoIdAudioTracksDeleteExecute(r ApiVideosVideoIdAudioTracksDeleteRequest) (*AudioTrackDelete, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *AudioTrackDelete
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdAudioTracksDelete")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdAudioTracksLangCodeDeleteRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+	langCode string
+}
+
+func (r ApiVideosVideoIdAudioTracksLangCodeDeleteRequest) Execute() (*AudioTrackDelete, *http.Response, error) {
+	return r.ApiService.VideosVideoIdAudioTracksLangCodeDeleteExecute(r)
+}
+
+/*
+VideosVideoIdAudioTracksLangCodeDelete Delete audio track by language
+
+Remove an audio track for a specific language using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @param langCode Language Code (BCP 47)
+ @return ApiVideosVideoIdAudioTracksLangCodeDeleteRequest
+*/
+func (a *VideosAPIService) VideosVideoIdAudioTracksLangCodeDelete(ctx context.Context, videoId string, langCode string) ApiVideosVideoIdAudioTracksLangCodeDeleteRequest {
+	return ApiVideosVideoIdAudioTracksLangCodeDeleteRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+		langCode: langCode,
+	}
+}
+
+// Execute executes the request
+//  @return AudioTrackDelete
+func (a *VideosAPIService) VideosVideoIdAudioTracksLangCodeDeleteExecute(r ApiVideosVideoIdAudioTracksLangCodeDeleteRequest) (*AudioTrackDelete, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *AudioTrackDelete
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdAudioTracksLangCodeDelete")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks/{lang_code}"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"lang_code"+"}", url.PathEscape(parameterValueToString(r.langCode, "langCode")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdAudioTracksLangCodePutRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+	langCode string
+}
+
+func (r ApiVideosVideoIdAudioTracksLangCodePutRequest) Execute() (*AudioTrack, *http.Response, error) {
+	return r.ApiService.VideosVideoIdAudioTracksLangCodePutExecute(r)
+}
+
+/*
+VideosVideoIdAudioTracksLangCodePut Upsert video audio track
+
+Add or replace an audio track for a specific language using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @param langCode Language Code (BCP 47)
+ @return ApiVideosVideoIdAudioTracksLangCodePutRequest
+*/
+func (a *VideosAPIService) VideosVideoIdAudioTracksLangCodePut(ctx context.Context, videoId string, langCode string) ApiVideosVideoIdAudioTracksLangCodePutRequest {
+	return ApiVideosVideoIdAudioTracksLangCodePutRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+		langCode: langCode,
+	}
+}
+
+// Execute executes the request
+//  @return AudioTrack
+func (a *VideosAPIService) VideosVideoIdAudioTracksLangCodePutExecute(r ApiVideosVideoIdAudioTracksLangCodePutRequest) (*AudioTrack, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *AudioTrack
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdAudioTracksLangCodePut")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks/{lang_code}"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"lang_code"+"}", url.PathEscape(parameterValueToString(r.langCode, "langCode")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded", "multipart/form-data"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdAudioTracksPostRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+}
+
+func (r ApiVideosVideoIdAudioTracksPostRequest) Execute() ([]AudioTrack, *http.Response, error) {
+	return r.ApiService.VideosVideoIdAudioTracksPostExecute(r)
+}
+
+/*
+VideosVideoIdAudioTracksPost Bulk upsert video audio tracks
+
+Replace all audio tracks with the provided ones using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @return ApiVideosVideoIdAudioTracksPostRequest
+*/
+func (a *VideosAPIService) VideosVideoIdAudioTracksPost(ctx context.Context, videoId string) ApiVideosVideoIdAudioTracksPostRequest {
+	return ApiVideosVideoIdAudioTracksPostRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+	}
+}
+
+// Execute executes the request
+//  @return []AudioTrack
+func (a *VideosAPIService) VideosVideoIdAudioTracksPostExecute(r ApiVideosVideoIdAudioTracksPostRequest) ([]AudioTrack, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []AudioTrack
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdAudioTracksPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded", "multipart/form-data"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdAudioTracksTrackIdDeleteRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+	trackId string
+}
+
+func (r ApiVideosVideoIdAudioTracksTrackIdDeleteRequest) Execute() (*AudioTrackDelete, *http.Response, error) {
+	return r.ApiService.VideosVideoIdAudioTracksTrackIdDeleteExecute(r)
+}
+
+/*
+VideosVideoIdAudioTracksTrackIdDelete Delete audio track
+
+Remove an additional audio track from a video using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @param trackId Audio Track ID
+ @return ApiVideosVideoIdAudioTracksTrackIdDeleteRequest
+*/
+func (a *VideosAPIService) VideosVideoIdAudioTracksTrackIdDelete(ctx context.Context, videoId string, trackId string) ApiVideosVideoIdAudioTracksTrackIdDeleteRequest {
+	return ApiVideosVideoIdAudioTracksTrackIdDeleteRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+		trackId: trackId,
+	}
+}
+
+// Execute executes the request
+//  @return AudioTrackDelete
+func (a *VideosAPIService) VideosVideoIdAudioTracksTrackIdDeleteExecute(r ApiVideosVideoIdAudioTracksTrackIdDeleteRequest) (*AudioTrackDelete, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *AudioTrackDelete
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdAudioTracksTrackIdDelete")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks/{trackId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"trackId"+"}", url.PathEscape(parameterValueToString(r.trackId, "trackId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdChaptersDeleteRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+}
+
+func (r ApiVideosVideoIdChaptersDeleteRequest) Execute() (*UpdateChaptersResponse, *http.Response, error) {
+	return r.ApiService.VideosVideoIdChaptersDeleteExecute(r)
+}
+
+/*
+VideosVideoIdChaptersDelete Delete video chapters
+
+Remove all chapters from a video using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @return ApiVideosVideoIdChaptersDeleteRequest
+*/
+func (a *VideosAPIService) VideosVideoIdChaptersDelete(ctx context.Context, videoId string) ApiVideosVideoIdChaptersDeleteRequest {
+	return ApiVideosVideoIdChaptersDeleteRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+	}
+}
+
+// Execute executes the request
+//  @return UpdateChaptersResponse
+func (a *VideosAPIService) VideosVideoIdChaptersDeleteExecute(r ApiVideosVideoIdChaptersDeleteRequest) (*UpdateChaptersResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *UpdateChaptersResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdChaptersDelete")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/chapters"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdChaptersPutRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+	videosVideoIdChaptersPutRequest *VideosVideoIdChaptersPutRequest
+}
+
+// Chapters array
+func (r ApiVideosVideoIdChaptersPutRequest) VideosVideoIdChaptersPutRequest(videosVideoIdChaptersPutRequest VideosVideoIdChaptersPutRequest) ApiVideosVideoIdChaptersPutRequest {
+	r.videosVideoIdChaptersPutRequest = &videosVideoIdChaptersPutRequest
+	return r
+}
+
+func (r ApiVideosVideoIdChaptersPutRequest) Execute() (*UpdateChaptersResponse, *http.Response, error) {
+	return r.ApiService.VideosVideoIdChaptersPutExecute(r)
+}
+
+/*
+VideosVideoIdChaptersPut Update video chapters
+
+Replace all chapters for a video (atomic PUT operation) using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @return ApiVideosVideoIdChaptersPutRequest
+*/
+func (a *VideosAPIService) VideosVideoIdChaptersPut(ctx context.Context, videoId string) ApiVideosVideoIdChaptersPutRequest {
+	return ApiVideosVideoIdChaptersPutRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+	}
+}
+
+// Execute executes the request
+//  @return UpdateChaptersResponse
+func (a *VideosAPIService) VideosVideoIdChaptersPutExecute(r ApiVideosVideoIdChaptersPutRequest) (*UpdateChaptersResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *UpdateChaptersResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdChaptersPut")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/chapters"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.videosVideoIdChaptersPutRequest == nil {
+		return localVarReturnValue, nil, reportError("videosVideoIdChaptersPutRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.videosVideoIdChaptersPutRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdDeleteDeleteRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+}
+
+func (r ApiVideosVideoIdDeleteDeleteRequest) Execute() (*http.Response, error) {
+	return r.ApiService.VideosVideoIdDeleteDeleteExecute(r)
+}
+
+/*
+VideosVideoIdDeleteDelete Delete video
+
+Delete a video by its ID within a project
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @return ApiVideosVideoIdDeleteDeleteRequest
+*/
+func (a *VideosAPIService) VideosVideoIdDeleteDelete(ctx context.Context, videoId string) ApiVideosVideoIdDeleteDeleteRequest {
+	return ApiVideosVideoIdDeleteDeleteRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+	}
+}
+
+// Execute executes the request
+func (a *VideosAPIService) VideosVideoIdDeleteDeleteExecute(r ApiVideosVideoIdDeleteDeleteRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdDeleteDelete")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/delete"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdGetRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+}
+
+func (r ApiVideosVideoIdGetRequest) Execute() (*Video, *http.Response, error) {
+	return r.ApiService.VideosVideoIdGetExecute(r)
+}
+
+/*
+VideosVideoIdGet Get a video
 
 Retrieve a video by its ID for a specific project.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param videoId Video ID
- @return ApiGetVideosVideoIdRequest
+ @return ApiVideosVideoIdGetRequest
 */
-func (a *VideosAPIService) GetVideosVideoId(ctx context.Context, videoId string) ApiGetVideosVideoIdRequest {
-	return ApiGetVideosVideoIdRequest{
+func (a *VideosAPIService) VideosVideoIdGet(ctx context.Context, videoId string) ApiVideosVideoIdGetRequest {
+	return ApiVideosVideoIdGetRequest{
 		ApiService: a,
 		ctx: ctx,
 		videoId: videoId,
@@ -1480,7 +1846,7 @@ func (a *VideosAPIService) GetVideosVideoId(ctx context.Context, videoId string)
 
 // Execute executes the request
 //  @return Video
-func (a *VideosAPIService) GetVideosVideoIdExecute(r ApiGetVideosVideoIdRequest) (*Video, *http.Response, error) {
+func (a *VideosAPIService) VideosVideoIdGetExecute(r ApiVideosVideoIdGetRequest) (*Video, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -1488,7 +1854,7 @@ func (a *VideosAPIService) GetVideosVideoIdExecute(r ApiGetVideosVideoIdRequest)
 		localVarReturnValue  *Video
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.GetVideosVideoId")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdGet")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1622,374 +1988,27 @@ func (a *VideosAPIService) GetVideosVideoIdExecute(r ApiGetVideosVideoIdRequest)
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPostVideosUploadCompleteRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	postVideosUploadCompleteRequest *PostVideosUploadCompleteRequest
-}
-
-// Video upload completion request
-func (r ApiPostVideosUploadCompleteRequest) PostVideosUploadCompleteRequest(postVideosUploadCompleteRequest PostVideosUploadCompleteRequest) ApiPostVideosUploadCompleteRequest {
-	r.postVideosUploadCompleteRequest = &postVideosUploadCompleteRequest
-	return r
-}
-
-func (r ApiPostVideosUploadCompleteRequest) Execute() (*Video, *http.Response, error) {
-	return r.ApiService.PostVideosUploadCompleteExecute(r)
-}
-
-/*
-PostVideosUploadComplete Upload: Mark as complete
-
-Mark a video upload as complete after successful upload to storage using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostVideosUploadCompleteRequest
-*/
-func (a *VideosAPIService) PostVideosUploadComplete(ctx context.Context) ApiPostVideosUploadCompleteRequest {
-	return ApiPostVideosUploadCompleteRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return Video
-func (a *VideosAPIService) PostVideosUploadCompleteExecute(r ApiPostVideosUploadCompleteRequest) (*Video, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Video
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.PostVideosUploadComplete")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/upload/complete"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.postVideosUploadCompleteRequest == nil {
-		return localVarReturnValue, nil, reportError("postVideosUploadCompleteRequest is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.postVideosUploadCompleteRequest
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiPostVideosUploadInitRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	postVideosUploadInitRequest *PostVideosUploadInitRequest
-}
-
-// Video upload initialization request
-func (r ApiPostVideosUploadInitRequest) PostVideosUploadInitRequest(postVideosUploadInitRequest PostVideosUploadInitRequest) ApiPostVideosUploadInitRequest {
-	r.postVideosUploadInitRequest = &postVideosUploadInitRequest
-	return r
-}
-
-func (r ApiPostVideosUploadInitRequest) Execute() (*GithubComQeeqezApiInternalVideosHandlerUploadInitResponse, *http.Response, error) {
-	return r.ApiService.PostVideosUploadInitExecute(r)
-}
-
-/*
-PostVideosUploadInit Upload: Init
-
-Initialize a video upload and get presigned URLs for video and poster using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostVideosUploadInitRequest
-*/
-func (a *VideosAPIService) PostVideosUploadInit(ctx context.Context) ApiPostVideosUploadInitRequest {
-	return ApiPostVideosUploadInitRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return GithubComQeeqezApiInternalVideosHandlerUploadInitResponse
-func (a *VideosAPIService) PostVideosUploadInitExecute(r ApiPostVideosUploadInitRequest) (*GithubComQeeqezApiInternalVideosHandlerUploadInitResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *GithubComQeeqezApiInternalVideosHandlerUploadInitResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.PostVideosUploadInit")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/upload/init"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.postVideosUploadInitRequest == nil {
-		return localVarReturnValue, nil, reportError("postVideosUploadInitRequest is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.postVideosUploadInitRequest
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiPostVideosVideoIdAudioTracksRequest struct {
+type ApiVideosVideoIdSubtitlesDeleteRequest struct {
 	ctx context.Context
 	ApiService *VideosAPIService
 	videoId string
 }
 
-func (r ApiPostVideosVideoIdAudioTracksRequest) Execute() ([]AudioTrack, *http.Response, error) {
-	return r.ApiService.PostVideosVideoIdAudioTracksExecute(r)
+func (r ApiVideosVideoIdSubtitlesDeleteRequest) Execute() (*SubtitleDelete, *http.Response, error) {
+	return r.ApiService.VideosVideoIdSubtitlesDeleteExecute(r)
 }
 
 /*
-PostVideosVideoIdAudioTracks Bulk upsert video audio tracks
+VideosVideoIdSubtitlesDelete Delete all subtitles
 
-Replace all audio tracks with the provided ones using API key authentication
+Remove all subtitles from a video using API key authentication
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param videoId Video ID
- @return ApiPostVideosVideoIdAudioTracksRequest
+ @return ApiVideosVideoIdSubtitlesDeleteRequest
 */
-func (a *VideosAPIService) PostVideosVideoIdAudioTracks(ctx context.Context, videoId string) ApiPostVideosVideoIdAudioTracksRequest {
-	return ApiPostVideosVideoIdAudioTracksRequest{
+func (a *VideosAPIService) VideosVideoIdSubtitlesDelete(ctx context.Context, videoId string) ApiVideosVideoIdSubtitlesDeleteRequest {
+	return ApiVideosVideoIdSubtitlesDeleteRequest{
 		ApiService: a,
 		ctx: ctx,
 		videoId: videoId,
@@ -1997,133 +2016,16 @@ func (a *VideosAPIService) PostVideosVideoIdAudioTracks(ctx context.Context, vid
 }
 
 // Execute executes the request
-//  @return []AudioTrack
-func (a *VideosAPIService) PostVideosVideoIdAudioTracksExecute(r ApiPostVideosVideoIdAudioTracksRequest) ([]AudioTrack, *http.Response, error) {
+//  @return SubtitleDelete
+func (a *VideosAPIService) VideosVideoIdSubtitlesDeleteExecute(r ApiVideosVideoIdSubtitlesDeleteRequest) (*SubtitleDelete, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []AudioTrack
+		localVarReturnValue  *SubtitleDelete
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.PostVideosVideoIdAudioTracks")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded", "multipart/form-data"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiPostVideosVideoIdSubtitlesRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-}
-
-func (r ApiPostVideosVideoIdSubtitlesRequest) Execute() ([]Subtitle, *http.Response, error) {
-	return r.ApiService.PostVideosVideoIdSubtitlesExecute(r)
-}
-
-/*
-PostVideosVideoIdSubtitles Bulk upsert video subtitles
-
-Replace all subtitles with the provided ones using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @return ApiPostVideosVideoIdSubtitlesRequest
-*/
-func (a *VideosAPIService) PostVideosVideoIdSubtitles(ctx context.Context, videoId string) ApiPostVideosVideoIdSubtitlesRequest {
-	return ApiPostVideosVideoIdSubtitlesRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-	}
-}
-
-// Execute executes the request
-//  @return []Subtitle
-func (a *VideosAPIService) PostVideosVideoIdSubtitlesExecute(r ApiPostVideosVideoIdSubtitlesRequest) ([]Subtitle, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []Subtitle
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.PostVideosVideoIdSubtitles")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdSubtitlesDelete")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2136,7 +2038,7 @@ func (a *VideosAPIService) PostVideosVideoIdSubtitlesExecute(r ApiPostVideosVide
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded", "multipart/form-data"}
+	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2203,29 +2105,29 @@ func (a *VideosAPIService) PostVideosVideoIdSubtitlesExecute(r ApiPostVideosVide
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPutVideosVideoIdAudioTracksLangCodeRequest struct {
+type ApiVideosVideoIdSubtitlesLangCodeDeleteRequest struct {
 	ctx context.Context
 	ApiService *VideosAPIService
 	videoId string
 	langCode string
 }
 
-func (r ApiPutVideosVideoIdAudioTracksLangCodeRequest) Execute() (*AudioTrack, *http.Response, error) {
-	return r.ApiService.PutVideosVideoIdAudioTracksLangCodeExecute(r)
+func (r ApiVideosVideoIdSubtitlesLangCodeDeleteRequest) Execute() (*SubtitleDelete, *http.Response, error) {
+	return r.ApiService.VideosVideoIdSubtitlesLangCodeDeleteExecute(r)
 }
 
 /*
-PutVideosVideoIdAudioTracksLangCode Upsert video audio track
+VideosVideoIdSubtitlesLangCodeDelete Delete subtitle by language
 
-Add or replace an audio track for a specific language using API key authentication
+Remove a subtitle for a specific language using API key authentication
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param videoId Video ID
  @param langCode Language Code (BCP 47)
- @return ApiPutVideosVideoIdAudioTracksLangCodeRequest
+ @return ApiVideosVideoIdSubtitlesLangCodeDeleteRequest
 */
-func (a *VideosAPIService) PutVideosVideoIdAudioTracksLangCode(ctx context.Context, videoId string, langCode string) ApiPutVideosVideoIdAudioTracksLangCodeRequest {
-	return ApiPutVideosVideoIdAudioTracksLangCodeRequest{
+func (a *VideosAPIService) VideosVideoIdSubtitlesLangCodeDelete(ctx context.Context, videoId string, langCode string) ApiVideosVideoIdSubtitlesLangCodeDeleteRequest {
+	return ApiVideosVideoIdSubtitlesLangCodeDeleteRequest{
 		ApiService: a,
 		ctx: ctx,
 		videoId: videoId,
@@ -2234,21 +2136,21 @@ func (a *VideosAPIService) PutVideosVideoIdAudioTracksLangCode(ctx context.Conte
 }
 
 // Execute executes the request
-//  @return AudioTrack
-func (a *VideosAPIService) PutVideosVideoIdAudioTracksLangCodeExecute(r ApiPutVideosVideoIdAudioTracksLangCodeRequest) (*AudioTrack, *http.Response, error) {
+//  @return SubtitleDelete
+func (a *VideosAPIService) VideosVideoIdSubtitlesLangCodeDeleteExecute(r ApiVideosVideoIdSubtitlesLangCodeDeleteRequest) (*SubtitleDelete, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
+		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *AudioTrack
+		localVarReturnValue  *SubtitleDelete
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.PutVideosVideoIdAudioTracksLangCode")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdSubtitlesLangCodeDelete")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/videos/{videoId}/audio-tracks/{lang_code}"
+	localVarPath := localBasePath + "/videos/{videoId}/subtitles/{lang_code}"
 	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"lang_code"+"}", url.PathEscape(parameterValueToString(r.langCode, "langCode")), -1)
 
@@ -2257,7 +2159,7 @@ func (a *VideosAPIService) PutVideosVideoIdAudioTracksLangCodeExecute(r ApiPutVi
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded", "multipart/form-data"}
+	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -2324,212 +2226,29 @@ func (a *VideosAPIService) PutVideosVideoIdAudioTracksLangCodeExecute(r ApiPutVi
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPutVideosVideoIdChaptersRequest struct {
-	ctx context.Context
-	ApiService *VideosAPIService
-	videoId string
-	putVideosVideoIdChaptersRequest *PutVideosVideoIdChaptersRequest
-}
-
-// Chapters array
-func (r ApiPutVideosVideoIdChaptersRequest) PutVideosVideoIdChaptersRequest(putVideosVideoIdChaptersRequest PutVideosVideoIdChaptersRequest) ApiPutVideosVideoIdChaptersRequest {
-	r.putVideosVideoIdChaptersRequest = &putVideosVideoIdChaptersRequest
-	return r
-}
-
-func (r ApiPutVideosVideoIdChaptersRequest) Execute() (*UpdateChaptersResponse, *http.Response, error) {
-	return r.ApiService.PutVideosVideoIdChaptersExecute(r)
-}
-
-/*
-PutVideosVideoIdChapters Update video chapters
-
-Replace all chapters for a video (atomic PUT operation) using API key authentication
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param videoId Video ID
- @return ApiPutVideosVideoIdChaptersRequest
-*/
-func (a *VideosAPIService) PutVideosVideoIdChapters(ctx context.Context, videoId string) ApiPutVideosVideoIdChaptersRequest {
-	return ApiPutVideosVideoIdChaptersRequest{
-		ApiService: a,
-		ctx: ctx,
-		videoId: videoId,
-	}
-}
-
-// Execute executes the request
-//  @return UpdateChaptersResponse
-func (a *VideosAPIService) PutVideosVideoIdChaptersExecute(r ApiPutVideosVideoIdChaptersRequest) (*UpdateChaptersResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *UpdateChaptersResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.PutVideosVideoIdChapters")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/videos/{videoId}/chapters"
-	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.putVideosVideoIdChaptersRequest == nil {
-		return localVarReturnValue, nil, reportError("putVideosVideoIdChaptersRequest is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.putVideosVideoIdChaptersRequest
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKeyAuth"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GithubComQeeqezApiInternalErrorsErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiPutVideosVideoIdSubtitlesLangCodeRequest struct {
+type ApiVideosVideoIdSubtitlesLangCodePutRequest struct {
 	ctx context.Context
 	ApiService *VideosAPIService
 	videoId string
 	langCode string
 }
 
-func (r ApiPutVideosVideoIdSubtitlesLangCodeRequest) Execute() (*Subtitle, *http.Response, error) {
-	return r.ApiService.PutVideosVideoIdSubtitlesLangCodeExecute(r)
+func (r ApiVideosVideoIdSubtitlesLangCodePutRequest) Execute() (*Subtitle, *http.Response, error) {
+	return r.ApiService.VideosVideoIdSubtitlesLangCodePutExecute(r)
 }
 
 /*
-PutVideosVideoIdSubtitlesLangCode Upsert video subtitle
+VideosVideoIdSubtitlesLangCodePut Upsert video subtitle
 
 Add or replace a subtitle for a specific language using API key authentication
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param videoId Video ID
  @param langCode Language Code (BCP 47)
- @return ApiPutVideosVideoIdSubtitlesLangCodeRequest
+ @return ApiVideosVideoIdSubtitlesLangCodePutRequest
 */
-func (a *VideosAPIService) PutVideosVideoIdSubtitlesLangCode(ctx context.Context, videoId string, langCode string) ApiPutVideosVideoIdSubtitlesLangCodeRequest {
-	return ApiPutVideosVideoIdSubtitlesLangCodeRequest{
+func (a *VideosAPIService) VideosVideoIdSubtitlesLangCodePut(ctx context.Context, videoId string, langCode string) ApiVideosVideoIdSubtitlesLangCodePutRequest {
+	return ApiVideosVideoIdSubtitlesLangCodePutRequest{
 		ApiService: a,
 		ctx: ctx,
 		videoId: videoId,
@@ -2539,7 +2258,7 @@ func (a *VideosAPIService) PutVideosVideoIdSubtitlesLangCode(ctx context.Context
 
 // Execute executes the request
 //  @return Subtitle
-func (a *VideosAPIService) PutVideosVideoIdSubtitlesLangCodeExecute(r ApiPutVideosVideoIdSubtitlesLangCodeRequest) (*Subtitle, *http.Response, error) {
+func (a *VideosAPIService) VideosVideoIdSubtitlesLangCodePutExecute(r ApiVideosVideoIdSubtitlesLangCodePutRequest) (*Subtitle, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
@@ -2547,7 +2266,7 @@ func (a *VideosAPIService) PutVideosVideoIdSubtitlesLangCodeExecute(r ApiPutVide
 		localVarReturnValue  *Subtitle
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.PutVideosVideoIdSubtitlesLangCode")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdSubtitlesLangCodePut")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2628,27 +2347,308 @@ func (a *VideosAPIService) PutVideosVideoIdSubtitlesLangCodeExecute(r ApiPutVide
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPutVideosVideoIdThumbnailRequest struct {
+type ApiVideosVideoIdSubtitlesPostRequest struct {
 	ctx context.Context
 	ApiService *VideosAPIService
 	videoId string
 }
 
-func (r ApiPutVideosVideoIdThumbnailRequest) Execute() (*Video, *http.Response, error) {
-	return r.ApiService.PutVideosVideoIdThumbnailExecute(r)
+func (r ApiVideosVideoIdSubtitlesPostRequest) Execute() ([]Subtitle, *http.Response, error) {
+	return r.ApiService.VideosVideoIdSubtitlesPostExecute(r)
 }
 
 /*
-PutVideosVideoIdThumbnail Update video thumbnail
+VideosVideoIdSubtitlesPost Bulk upsert video subtitles
+
+Replace all subtitles with the provided ones using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @return ApiVideosVideoIdSubtitlesPostRequest
+*/
+func (a *VideosAPIService) VideosVideoIdSubtitlesPost(ctx context.Context, videoId string) ApiVideosVideoIdSubtitlesPostRequest {
+	return ApiVideosVideoIdSubtitlesPostRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+	}
+}
+
+// Execute executes the request
+//  @return []Subtitle
+func (a *VideosAPIService) VideosVideoIdSubtitlesPostExecute(r ApiVideosVideoIdSubtitlesPostRequest) ([]Subtitle, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []Subtitle
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdSubtitlesPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/subtitles"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded", "multipart/form-data"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdSubtitlesSubtitleIdDeleteRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+	subtitleId string
+}
+
+func (r ApiVideosVideoIdSubtitlesSubtitleIdDeleteRequest) Execute() (*SubtitleDelete, *http.Response, error) {
+	return r.ApiService.VideosVideoIdSubtitlesSubtitleIdDeleteExecute(r)
+}
+
+/*
+VideosVideoIdSubtitlesSubtitleIdDelete Delete subtitle
+
+Remove a subtitle from a video using API key authentication
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param videoId Video ID
+ @param subtitleId Subtitle ID
+ @return ApiVideosVideoIdSubtitlesSubtitleIdDeleteRequest
+*/
+func (a *VideosAPIService) VideosVideoIdSubtitlesSubtitleIdDelete(ctx context.Context, videoId string, subtitleId string) ApiVideosVideoIdSubtitlesSubtitleIdDeleteRequest {
+	return ApiVideosVideoIdSubtitlesSubtitleIdDeleteRequest{
+		ApiService: a,
+		ctx: ctx,
+		videoId: videoId,
+		subtitleId: subtitleId,
+	}
+}
+
+// Execute executes the request
+//  @return SubtitleDelete
+func (a *VideosAPIService) VideosVideoIdSubtitlesSubtitleIdDeleteExecute(r ApiVideosVideoIdSubtitlesSubtitleIdDeleteRequest) (*SubtitleDelete, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SubtitleDelete
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdSubtitlesSubtitleIdDelete")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/videos/{videoId}/subtitles/{subtitleId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"videoId"+"}", url.PathEscape(parameterValueToString(r.videoId, "videoId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"subtitleId"+"}", url.PathEscape(parameterValueToString(r.subtitleId, "subtitleId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GithubComQeeqezApiInternalErrorsErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiVideosVideoIdThumbnailPutRequest struct {
+	ctx context.Context
+	ApiService *VideosAPIService
+	videoId string
+}
+
+func (r ApiVideosVideoIdThumbnailPutRequest) Execute() (*Video, *http.Response, error) {
+	return r.ApiService.VideosVideoIdThumbnailPutExecute(r)
+}
+
+/*
+VideosVideoIdThumbnailPut Update video thumbnail
 
 Update the thumbnail image for an existing video using API key authentication
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param videoId Video ID
- @return ApiPutVideosVideoIdThumbnailRequest
+ @return ApiVideosVideoIdThumbnailPutRequest
 */
-func (a *VideosAPIService) PutVideosVideoIdThumbnail(ctx context.Context, videoId string) ApiPutVideosVideoIdThumbnailRequest {
-	return ApiPutVideosVideoIdThumbnailRequest{
+func (a *VideosAPIService) VideosVideoIdThumbnailPut(ctx context.Context, videoId string) ApiVideosVideoIdThumbnailPutRequest {
+	return ApiVideosVideoIdThumbnailPutRequest{
 		ApiService: a,
 		ctx: ctx,
 		videoId: videoId,
@@ -2657,7 +2657,7 @@ func (a *VideosAPIService) PutVideosVideoIdThumbnail(ctx context.Context, videoI
 
 // Execute executes the request
 //  @return Video
-func (a *VideosAPIService) PutVideosVideoIdThumbnailExecute(r ApiPutVideosVideoIdThumbnailRequest) (*Video, *http.Response, error) {
+func (a *VideosAPIService) VideosVideoIdThumbnailPutExecute(r ApiVideosVideoIdThumbnailPutRequest) (*Video, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
@@ -2665,7 +2665,7 @@ func (a *VideosAPIService) PutVideosVideoIdThumbnailExecute(r ApiPutVideosVideoI
 		localVarReturnValue  *Video
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.PutVideosVideoIdThumbnail")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VideosAPIService.VideosVideoIdThumbnailPut")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
