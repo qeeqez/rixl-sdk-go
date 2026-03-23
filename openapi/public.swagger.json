@@ -26,7 +26,7 @@
           "application/json"
         ],
         "tags": [
-          "Feeds"
+          "feeds"
         ],
         "summary": "List posts in a feed",
         "parameters": [
@@ -85,7 +85,7 @@
           "application/json"
         ],
         "tags": [
-          "Feeds"
+          "feeds"
         ],
         "summary": "List posts by creator",
         "parameters": [
@@ -151,7 +151,7 @@
           "application/json"
         ],
         "tags": [
-          "Feeds"
+          "feeds"
         ],
         "summary": "Get a post",
         "parameters": [
@@ -200,7 +200,7 @@
           "application/json"
         ],
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "List images for a project",
         "parameters": [
@@ -285,7 +285,7 @@
           "application/json"
         ],
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "Upload: Mark as complete",
         "parameters": [
@@ -356,7 +356,7 @@
           "application/json"
         ],
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "Upload: Init",
         "parameters": [
@@ -418,7 +418,7 @@
           "application/json"
         ],
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "Get image",
         "parameters": [
@@ -479,7 +479,7 @@
       "delete": {
         "description": "delete an image by marking it as deleted",
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "Delete image",
         "parameters": [
@@ -542,7 +542,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "List videos for a project",
         "parameters": [
@@ -624,7 +624,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "List available subtitle languages",
         "responses": {
@@ -651,7 +651,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Upload: Mark as complete",
         "parameters": [
@@ -722,7 +722,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Upload: Init",
         "parameters": [
@@ -784,7 +784,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Get a video",
         "parameters": [
@@ -853,7 +853,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Bulk upsert video audio tracks",
         "parameters": [
@@ -867,8 +867,7 @@
           {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "binary"
+              "type": "file"
             },
             "collectionFormat": "multi",
             "description": "Audio files (.mp3, .opus, .flac, .wav, .ac3, .m4a, .aac)",
@@ -913,7 +912,7 @@
       "delete": {
         "description": "Remove all additional audio tracks from a video using API key authentication",
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Delete all audio tracks",
         "parameters": [
@@ -952,7 +951,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Upsert video audio track",
         "parameters": [
@@ -971,12 +970,11 @@
             "required": true
           },
           {
-            "type": "string",
+            "type": "file",
             "description": "Audio file (.mp3, .opus, .flac, .wav, .ac3, .m4a, .aac)",
             "name": "file",
             "in": "formData",
-            "required": true,
-            "format": "binary"
+            "required": true
           },
           {
             "type": "string",
@@ -1004,7 +1002,7 @@
       "delete": {
         "description": "Remove an audio track for a specific language using API key authentication",
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Delete audio track by language",
         "parameters": [
@@ -1044,7 +1042,7 @@
       "delete": {
         "description": "Remove an additional audio track from a video using API key authentication",
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Delete audio track",
         "parameters": [
@@ -1114,7 +1112,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Update video chapters",
         "parameters": [
@@ -1187,7 +1185,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Delete video chapters",
         "parameters": [
@@ -1244,7 +1242,7 @@
       "delete": {
         "description": "Delete a video by its ID within a project",
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Delete video",
         "parameters": [
@@ -1310,7 +1308,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Bulk upsert video subtitles",
         "parameters": [
@@ -1324,8 +1322,7 @@
           {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "binary"
+              "type": "file"
             },
             "collectionFormat": "multi",
             "description": "Subtitle files (.srt or .vtt)",
@@ -1370,7 +1367,7 @@
       "delete": {
         "description": "Remove all subtitles from a video using API key authentication",
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Delete all subtitles",
         "parameters": [
@@ -1409,7 +1406,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Upsert video subtitle",
         "parameters": [
@@ -1428,12 +1425,11 @@
             "required": true
           },
           {
-            "type": "string",
+            "type": "file",
             "description": "Subtitle file (.srt or .vtt)",
             "name": "file",
             "in": "formData",
-            "required": true,
-            "format": "binary"
+            "required": true
           },
           {
             "type": "string",
@@ -1461,7 +1457,7 @@
       "delete": {
         "description": "Remove a subtitle for a specific language using API key authentication",
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Delete subtitle by language",
         "parameters": [
@@ -1501,7 +1497,7 @@
       "delete": {
         "description": "Remove a subtitle from a video using API key authentication",
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Delete subtitle",
         "parameters": [
@@ -1563,7 +1559,7 @@
     },
     "/videos/{videoId}/thumbnail": {
       "put": {
-        "description": "Update the thumbnail image for an existing video",
+        "description": "Update the thumbnail image for an existing video using API key authentication",
         "consumes": [
           "multipart/form-data"
         ],
@@ -1571,7 +1567,7 @@
           "application/json"
         ],
         "tags": [
-          "Videos"
+          "videos"
         ],
         "summary": "Update video thumbnail",
         "parameters": [
@@ -1583,12 +1579,11 @@
             "required": true
           },
           {
-            "type": "string",
+            "type": "file",
             "description": "Thumbnail image file (max 5MB, image/*)",
             "name": "thumbnail",
             "in": "formData",
-            "required": true,
-            "format": "binary"
+            "required": true
           }
         ],
         "responses": {
@@ -1605,7 +1600,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized",
+            "description": "Unauthorized - Invalid API key",
             "schema": {
               "$ref": "#/definitions/github_com_qeeqez_api_internal_errors.ErrorResponse"
             }
@@ -1629,6 +1624,12 @@
             }
           }
         },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-order": 6,
         "operationId": "put_videos_videoId_thumbnail"
       }
     }
@@ -2323,15 +2324,15 @@
   "tags": [
     {
       "description": "**Build dynamic social experiences.**<br><br>Feeds are ordered collections of Posts, designed for creating vertical video carousels, stories, or social timelines. Each Post contains your media (video or image) and its associated metadata.",
-      "name": "Feeds"
+      "name": "feeds"
     },
     {
       "description": "**Upload once, stream perfectly anywhere.**<br><br>RIXL's intelligent processing pipeline analyzes your video and transcodes it for optimal quality and performance. We handle the complexity so you can deliver a perfect playback experience every time.",
-      "name": "Videos"
+      "name": "videos"
     },
     {
       "description": "**Deliver fast, perfectly formatted images.**<br><br>RIXL automatically handles image optimization, format conversion, and ThumbHash generation. All images are served via our global CDN for an ideal user experience.",
-      "name": "Images"
+      "name": "images"
     }
   ],
   "host": "api.rixl.com"

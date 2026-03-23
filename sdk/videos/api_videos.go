@@ -298,7 +298,7 @@ type VideosAPI interface {
 	/*
 	PutVideosVideoIdThumbnail Update video thumbnail
 
-	Update the thumbnail image for an existing video
+	Update the thumbnail image for an existing video using API key authentication
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param videoId Video ID
@@ -3108,7 +3108,7 @@ func (r ApiPutVideosVideoIdThumbnailRequest) Execute() (*Video, *http.Response, 
 /*
 PutVideosVideoIdThumbnail Update video thumbnail
 
-Update the thumbnail image for an existing video
+Update the thumbnail image for an existing video using API key authentication
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param videoId Video ID
@@ -3178,6 +3178,20 @@ func (a *VideosAPIService) PutVideosVideoIdThumbnailExecute(r ApiPutVideosVideoI
 		thumbnailLocalVarFileName = thumbnailLocalVarFile.Name()
 		thumbnailLocalVarFile.Close()
 		formFiles = append(formFiles, formFile{fileBytes: thumbnailLocalVarFileBytes, fileName: thumbnailLocalVarFileName, formFileName: thumbnailLocalVarFormFileName})
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKeyAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {

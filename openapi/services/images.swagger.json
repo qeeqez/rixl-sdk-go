@@ -26,7 +26,7 @@
           "application/json"
         ],
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "List images for a project",
         "parameters": [
@@ -111,7 +111,7 @@
           "application/json"
         ],
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "Upload: Mark as complete",
         "parameters": [
@@ -182,7 +182,7 @@
           "application/json"
         ],
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "Upload: Init",
         "parameters": [
@@ -244,7 +244,7 @@
           "application/json"
         ],
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "Get image",
         "parameters": [
@@ -305,7 +305,7 @@
       "delete": {
         "description": "delete an image by marking it as deleted",
         "tags": [
-          "Images"
+          "images"
         ],
         "summary": "Delete image",
         "parameters": [
@@ -584,7 +584,7 @@
   "tags": [
     {
       "description": "**Deliver fast, perfectly formatted images.**<br><br>RIXL automatically handles image optimization, format conversion, and ThumbHash generation. All images are served via our global CDN for an ideal user experience.",
-      "name": "Images"
+      "name": "images"
     }
   ],
   "host": "api.rixl.com"

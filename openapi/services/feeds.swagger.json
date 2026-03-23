@@ -26,7 +26,7 @@
           "application/json"
         ],
         "tags": [
-          "Feeds"
+          "feeds"
         ],
         "summary": "List posts in a feed",
         "parameters": [
@@ -85,7 +85,7 @@
           "application/json"
         ],
         "tags": [
-          "Feeds"
+          "feeds"
         ],
         "summary": "List posts by creator",
         "parameters": [
@@ -151,7 +151,7 @@
           "application/json"
         ],
         "tags": [
-          "Feeds"
+          "feeds"
         ],
         "summary": "Get a post",
         "parameters": [
@@ -524,7 +524,7 @@
   "tags": [
     {
       "description": "**Build dynamic social experiences.**<br><br>Feeds are ordered collections of Posts, designed for creating vertical video carousels, stories, or social timelines. Each Post contains your media (video or image) and its associated metadata.",
-      "name": "Feeds"
+      "name": "feeds"
     }
   ],
   "host": "api.rixl.com"
