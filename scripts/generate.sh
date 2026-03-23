@@ -114,7 +114,12 @@ for service in "${services[@]}"; do
 	perl -0pi -e "s{github\\.com/GIT_USER_ID/GIT_REPO_ID/rixl}{github.com/qeeqez/rixl-sdk-go/sdk/${service}}g; s{\\*http://localhost\\*}{*https://api.rixl.com*}g" "${service_tmp}/README.md"
 
 	rm -rf "${service_tmp}/.openapi-generator" "${service_tmp}/api"
-	rm -f "${service_tmp}/.travis.yml" "${service_tmp}/git_push.sh"
+	rm -f \
+		"${service_tmp}/.travis.yml" \
+		"${service_tmp}/git_push.sh" \
+		"${service_tmp}/README.md" \
+		"${service_tmp}/.gitignore" \
+		"${service_tmp}/.openapi-generator-ignore"
 
 	mkdir -p "${output_dir}"
 	rsync -a --delete \
