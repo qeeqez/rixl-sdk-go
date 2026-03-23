@@ -1292,72 +1292,6 @@
         }
       }
     },
-    "Post": {
-      "type": "object",
-      "properties": {
-        "created_at": {
-          "type": "string",
-          "example": "2025-01-01T00:00:00Z"
-        },
-        "creator_id": {
-          "type": "string",
-          "example": "CR8y3QB38S"
-        },
-        "description": {
-          "type": "string",
-          "example": "My awesome post"
-        },
-        "feed_id": {
-          "type": "string",
-          "example": "FD4y3QB38S"
-        },
-        "id": {
-          "type": "string",
-          "example": "PS5IMKoFLm"
-        },
-        "image": {
-          "$ref": "#/definitions/Image"
-        },
-        "plan_type": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/github_com_qeeqez_api_db_sqlc.PlanType"
-            }
-          ],
-          "example": "free"
-        },
-        "type": {
-          "enum": [
-            "video",
-            "image"
-          ],
-          "allOf": [
-            {
-              "$ref": "#/definitions/PostType"
-            }
-          ],
-          "example": "video"
-        },
-        "updated_at": {
-          "type": "string",
-          "example": "2025-01-01T00:00:00Z"
-        },
-        "video": {
-          "$ref": "#/definitions/github_com_qeeqez_api_internal_videos.VideoResponse"
-        }
-      }
-    },
-    "PostType": {
-      "type": "string",
-      "enum": [
-        "image",
-        "video"
-      ],
-      "x-enum-varnames": [
-        "PostTypeImage",
-        "PostTypeVideo"
-      ]
-    },
     "Subtitle": {
       "type": "object",
       "properties": {
@@ -1561,55 +1495,6 @@
         }
       }
     },
-    "github_com_qeeqez_api_internal_videos.VideoResponse": {
-      "type": "object",
-      "properties": {
-        "bitrate": {
-          "type": "integer"
-        },
-        "chapters": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Chapter"
-          }
-        },
-        "codec": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "number"
-        },
-        "file": {
-          "$ref": "#/definitions/File"
-        },
-        "framerate": {
-          "type": "string"
-        },
-        "hdr": {
-          "type": "boolean"
-        },
-        "height": {
-          "type": "integer"
-        },
-        "id": {
-          "type": "string"
-        },
-        "plan_type": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/github_com_qeeqez_api_db_sqlc.PlanType"
-            }
-          ],
-          "example": "free"
-        },
-        "poster": {
-          "$ref": "#/definitions/Image"
-        },
-        "width": {
-          "type": "integer"
-        }
-      }
-    },
     "github_com_qeeqez_api_internal_videos_handler_upload.CompleteRequest": {
       "type": "object",
       "properties": {
@@ -1655,49 +1540,6 @@
         }
       }
     },
-    "internal_images_handler.completeRequest": {
-      "type": "object",
-      "properties": {
-        "attached_to_video": {
-          "type": "boolean",
-          "example": false
-        },
-        "image_id": {
-          "type": "string",
-          "example": "PS5IMKoFLm"
-        }
-      }
-    },
-    "internal_images_handler.initResponse": {
-      "type": "object",
-      "properties": {
-        "image_id": {
-          "type": "string",
-          "example": "PS5IMKoFLm"
-        },
-        "presigned_url": {
-          "type": "string",
-          "example": "https://images.rixl.com/Bq4y3QB38S/PS5IMKoFLm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAEXAMPLE%2F20250831%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250831T103000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b228dbec8c1008c80c162e1210e4503dceead1e4d4751b4d9787314fd6da4d55"
-        },
-        "upload_expires": {
-          "type": "integer",
-          "example": 1640995200
-        }
-      }
-    },
-    "internal_images_handler.uploadInitRequest": {
-      "type": "object",
-      "properties": {
-        "format": {
-          "type": "string",
-          "example": "jpg"
-        },
-        "name": {
-          "type": "string",
-          "example": "my-image.jpg"
-        }
-      }
-    },
     "internal_videos_handler_subtitles.languageResponse": {
       "type": "object",
       "properties": {
@@ -1706,46 +1548,6 @@
         },
         "name": {
           "type": "string"
-        }
-      }
-    },
-    "pagination.PaginatedResponse-Image": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "description": "Data contains the slice of items for the current request.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Image"
-          }
-        },
-        "pagination": {
-          "description": "Pagination data for the request.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/pagination.Pagination"
-            }
-          ]
-        }
-      }
-    },
-    "pagination.PaginatedResponse-Post": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "description": "Data contains the slice of items for the current request.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Post"
-          }
-        },
-        "pagination": {
-          "description": "Pagination data for the request.",
-          "allOf": [
-            {
-              "$ref": "#/definitions/pagination.Pagination"
-            }
-          ]
         }
       }
     },
