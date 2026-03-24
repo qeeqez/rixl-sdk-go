@@ -1,0 +1,2446 @@
+openapi: 3.1.0
+info:
+  contact:
+    email: support@rixl.com
+    name: RIXL Support
+    url: https://rixl.com/support
+  description: |-
+    **Build a powerful video experience from on-demand streaming to dynamic social feeds with a single API.**
+
+    RIXL handles video processing, ingestion and global delivery so you don't have to.
+    With builtin support for transcoding, storage and structured media feeds, Our API makes it easy to deliver high-quality media content at scale.
+  license:
+    name: All Rights Reserved
+    url: https://rixl.com/terms-of-service
+  title: RIXL API
+  version: "2.0"
+externalDocs:
+  description: ""
+  url: ""
+servers:
+- url: /
+tags:
+- description: '**User authentication and session management**'
+  name: Authentication
+- description: '**User account management**'
+  name: Users
+- description: '**Organization management**'
+  name: Organizations
+- description: '**Project management within organizations**'
+  name: Projects
+- description: '**API key management for organizations**'
+  name: API Keys
+- description: '**Billing and subscription management**'
+  name: Billing
+- description: "**Build dynamic social experiences.**<br><br>Feeds are ordered collections\
+    \ of Posts, designed for creating vertical video carousels, stories, or social\
+    \ timelines. Each Post contains your media (video or image) and its associated\
+    \ metadata."
+  name: Feeds
+- description: "**Upload once, stream perfectly anywhere.**<br><br>RIXL's intelligent\
+    \ processing pipeline analyzes your video and transcodes it for optimal quality\
+    \ and performance. We handle the complexity so you can deliver a perfect playback\
+    \ experience every time."
+  name: Videos
+- description: "**Deliver fast, perfectly formatted images.**<br><br>RIXL automatically\
+    \ handles image optimization, format conversion, and ThumbHash generation. All\
+    \ images are served via our global CDN for an ideal user experience."
+  name: Images
+- description: '**File upload and management**'
+  name: Files
+- description: "**Track and analyze content performance.**<br><br>Collect analytics\
+    \ events and retrieve detailed statistics for videos, posts, and feeds. Monitor\
+    \ views, engagement, and user behavior. features include funnel analysis, retention\
+    \ cohorts, user properties, and real-time stats."
+  name: Analytics
+- description: '**Internal API endpoints**'
+  name: Internal
+- description: '**System management endpoints**'
+  name: Management
+paths:
+  /feeds/{feedId}:
+    get:
+      description: "Retrieve posts in a feed, with pagination."
+      parameters:
+      - description: Feed ID
+        example: F4edRI23XL
+        explode: false
+        in: path
+        name: feedId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Maximum number of items to return in a single request. <br> **Default:**
+          `25`
+        example: 25
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 25
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: "Starting point of the result set. <br>To get page 2 with a limit\
+          \ of 25, set `offset` to `25`. <br> **Default:** `0`"
+        example: 0
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/pagination.PaginatedResponse-Post"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid feed ID or query parameters
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Internal server error
+      summary: List posts in a feed
+      tags:
+      - Feeds
+  /feeds/{feedId}/creators/{creatorId}:
+    get:
+      description: "Retrieve posts in a feed by a specific creator, with pagination."
+      parameters:
+      - description: Feed ID
+        example: F4edRI23XL
+        explode: false
+        in: path
+        name: feedId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Creator ID
+        example: C6rtRI23XL
+        explode: false
+        in: path
+        name: creatorId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Maximum number of items to return in a single request. <br> **Default:**
+          `25`
+        example: 25
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 25
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: "Starting point of the result set. <br>To get page 2 with a limit\
+          \ of 25, set `offset` to `25`. <br> **Default:** `0`"
+        example: 0
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/pagination.PaginatedResponse-Post"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: "Invalid feed ID, creator ID, or query parameters"
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Internal server error
+      summary: List posts by creator
+      tags:
+      - Feeds
+  /feeds/{feedId}/{postId}:
+    get:
+      description: Retrieve a post from feed by its ID
+      parameters:
+      - description: Feed ID
+        example: F4edRI23XL
+        explode: false
+        in: path
+        name: feedId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Post ID
+        example: P5stRI23XL
+        explode: false
+        in: path
+        name: postId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Not Found
+      summary: Get a post
+      tags:
+      - Feeds
+  /images:
+    get:
+      description: "Retrieve all images for a specific project, with pagination and\
+        \ sorting."
+      parameters:
+      - description: Maximum number of items to return in a single request. <br> **Default:**
+          `25`
+        example: 25
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 25
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: "Starting point of the result set. <br>To get page 2 with a limit\
+          \ of 25, set `offset` to `25`. <br> **Default:** `0`"
+        example: 0
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: "Field to sort by (created_at, name, size, updated_at)"
+        example: created_at
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Sort order (asc, desc)"
+        example: desc
+        explode: true
+        in: query
+        name: order
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/pagination.PaginatedResponse-Image"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid query parameters
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Internal server error
+        x-order: 2
+      security:
+      - ApiKeyAuth: []
+      summary: List images for a project
+      tags:
+      - Images
+  /images/upload/complete:
+    post:
+      description: Complete the upload process and create the image record using API
+        key authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_images_upload_complete_post_request"
+        description: Upload completion request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Image"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid request body
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized - Invalid API key
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Access denied
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: File not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Failed to complete upload or create image
+        x-order: 4
+      security:
+      - ApiKeyAuth: []
+      summary: "Upload: Mark as complete"
+      tags:
+      - Images
+  /images/upload/init:
+    post:
+      description: Initialize a presigned URL upload for an image file using API key
+        authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_images_upload_init_post_request"
+        description: Upload initialization request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/internal_images_handler.initResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid request body
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized - Invalid API key
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Access denied
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Failed to initialize upload
+        x-order: 3
+      security:
+      - ApiKeyAuth: []
+      summary: "Upload: Init"
+      tags:
+      - Images
+  /images/{imageId}:
+    delete:
+      description: delete an image by marking it as deleted
+      parameters:
+      - description: Image ID
+        example: M1uxRI23XL
+        explode: false
+        in: path
+        name: imageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Image deleted successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid project ID or image ID
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Access denied
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Image not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Failed to delete image
+        x-order: 5
+      security:
+      - ApiKeyAuth: []
+      summary: Delete image
+      tags:
+      - Images
+    get:
+      description: Retrieve an image by its ID for a specific project.
+      parameters:
+      - description: Image ID
+        example: M1uxRI23XL
+        explode: false
+        in: path
+        name: imageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Image"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid image ID
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Image not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Internal server error
+        x-order: 1
+      security:
+      - ApiKeyAuth: []
+      summary: Get image
+      tags:
+      - Images
+  /videos:
+    get:
+      description: "Retrieve all videos for a specific project, with pagination and\
+        \ sorting."
+      parameters:
+      - description: Maximum number of items to return in a single request. <br> **Default:**
+          `25`
+        example: 25
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 25
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: "Starting point of the result set. <br>To get page 2 with a limit\
+          \ of 25, set `offset` to `25`. <br> **Default:** `0`"
+        example: 0
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: "Field to sort by (created_at, name, size, updated_at, duration)"
+        example: created_at
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Sort order (asc, desc)"
+        example: desc
+        explode: true
+        in: query
+        name: order
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/pagination.PaginatedResponse-Video"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid query parameters
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Internal server error
+        x-order: 2
+      security:
+      - ApiKeyAuth: []
+      summary: List videos for a project
+      tags:
+      - Videos
+  /videos/languages:
+    get:
+      description: Get list of supported languages for subtitles
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/internal_videos_handler_subtitles.languageResponse"
+                type: array
+          description: OK
+      summary: List available subtitle languages
+      tags:
+      - Videos
+  /videos/upload/complete:
+    post:
+      description: Mark a video upload as complete after successful upload to storage
+        using API key authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_videos_upload_complete_post_request"
+        description: Video upload completion request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Video"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid request body
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized - Invalid API key
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Access denied
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: File not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Failed to complete upload
+        x-order: 4
+      security:
+      - ApiKeyAuth: []
+      summary: "Upload: Mark as complete"
+      tags:
+      - Videos
+  /videos/upload/init:
+    post:
+      description: Initialize a video upload and get presigned URLs for video and
+        poster using API key authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_videos_upload_init_post_request"
+        description: Video upload initialization request
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_videos_handler_upload.InitResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid request body
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized - Invalid API key
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Access denied
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Failed to initialize upload
+        x-order: 3
+      security:
+      - ApiKeyAuth: []
+      summary: "Upload: Init"
+      tags:
+      - Videos
+  /videos/{videoId}:
+    get:
+      description: Retrieve a video by its ID for a specific project.
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Video"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid video ID
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Video not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Internal server error
+        x-order: 1
+      security:
+      - ApiKeyAuth: []
+      summary: Get a video
+      tags:
+      - Videos
+  /videos/{videoId}/audio-tracks:
+    delete:
+      description: Remove all additional audio tracks from a video using API key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioTrackDelete"
+          description: OK
+        x-order: 10.3
+      security:
+      - ApiKeyAuth: []
+      summary: Delete all audio tracks
+      tags:
+      - Videos
+    post:
+      description: Replace all audio tracks with the provided ones using API key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/_videos__videoId__audio_tracks_post_request"
+          multipart/form-data:
+            schema:
+              type: object
+        description: files | Comma-separated language codes | Comma-separated labels
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/AudioTrack"
+                type: array
+          description: OK
+        x-order: 10
+      security:
+      - ApiKeyAuth: []
+      summary: Bulk upsert video audio tracks
+      tags:
+      - Videos
+  /videos/{videoId}/audio-tracks/{lang_code}:
+    delete:
+      description: Remove an audio track for a specific language using API key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Language Code (BCP 47)
+        example: en-US
+        explode: false
+        in: path
+        name: lang_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioTrackDelete"
+          description: OK
+        x-order: 10.2
+      security:
+      - ApiKeyAuth: []
+      summary: Delete audio track by language
+      tags:
+      - Videos
+    put:
+      description: Add or replace an audio track for a specific language using API
+        key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Language Code (BCP 47)
+        example: en-US
+        explode: false
+        in: path
+        name: lang_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/_videos__videoId__audio_tracks__lang_code__put_request"
+          multipart/form-data:
+            schema:
+              type: object
+        description: file | Label (e.g. English)
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioTrack"
+          description: OK
+        x-order: 10.1
+      security:
+      - ApiKeyAuth: []
+      summary: Upsert video audio track
+      tags:
+      - Videos
+  /videos/{videoId}/audio-tracks/{trackId}:
+    delete:
+      description: Remove an additional audio track from a video using API key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Audio Track ID
+        example: A7trRI23XL
+        explode: false
+        in: path
+        name: trackId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioTrackDelete"
+          description: OK
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Internal Server Error
+        x-order: 11
+      security:
+      - ApiKeyAuth: []
+      summary: Delete audio track
+      tags:
+      - Videos
+  /videos/{videoId}/chapters:
+    delete:
+      description: Remove all chapters from a video using API key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateChaptersResponse"
+          description: OK
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized - Invalid API key
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Access denied
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Video not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Failed to delete chapters
+        x-order: 13
+      security:
+      - ApiKeyAuth: []
+      summary: Delete video chapters
+      tags:
+      - Videos
+    put:
+      description: Replace all chapters for a video (atomic PUT operation) using API
+        key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_videos__videoId__chapters_put_request"
+        description: Chapters array
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateChaptersResponse"
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid request body or video duration not available
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized - Invalid API key
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Access denied
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Video not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Failed to update chapters
+        x-order: 12
+      security:
+      - ApiKeyAuth: []
+      summary: Update video chapters
+      tags:
+      - Videos
+  /videos/{videoId}/delete:
+    delete:
+      description: Delete a video by its ID within a project
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Video deleted successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid project ID or video ID
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Access denied
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Video not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Failed to delete video
+        x-order: 5
+      security:
+      - ApiKeyAuth: []
+      summary: Delete video
+      tags:
+      - Videos
+  /videos/{videoId}/subtitles:
+    delete:
+      description: Remove all subtitles from a video using API key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubtitleDelete"
+          description: OK
+        x-order: 8.3
+      security:
+      - ApiKeyAuth: []
+      summary: Delete all subtitles
+      tags:
+      - Videos
+    post:
+      description: Replace all subtitles with the provided ones using API key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/_videos__videoId__audio_tracks_post_request"
+          multipart/form-data:
+            schema:
+              type: object
+        description: files | Comma-separated language codes | Comma-separated labels
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Subtitle"
+                type: array
+          description: OK
+        x-order: 8
+      security:
+      - ApiKeyAuth: []
+      summary: Bulk upsert video subtitles
+      tags:
+      - Videos
+  /videos/{videoId}/subtitles/{lang_code}:
+    delete:
+      description: Remove a subtitle for a specific language using API key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Language Code (BCP 47)
+        example: en
+        explode: false
+        in: path
+        name: lang_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubtitleDelete"
+          description: OK
+        x-order: 8.2
+      security:
+      - ApiKeyAuth: []
+      summary: Delete subtitle by language
+      tags:
+      - Videos
+    put:
+      description: Add or replace a subtitle for a specific language using API key
+        authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Language Code (BCP 47)
+        example: en
+        explode: false
+        in: path
+        name: lang_code
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/_videos__videoId__audio_tracks__lang_code__put_request"
+          multipart/form-data:
+            schema:
+              type: object
+        description: file | Label (e.g. English)
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subtitle"
+          description: OK
+        x-order: 8.1
+      security:
+      - ApiKeyAuth: []
+      summary: Upsert video subtitle
+      tags:
+      - Videos
+  /videos/{videoId}/subtitles/{subtitleId}:
+    delete:
+      description: Remove a subtitle from a video using API key authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Subtitle ID
+        example: S4ubRI23XL
+        explode: false
+        in: path
+        name: subtitleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubtitleDelete"
+          description: OK
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Internal Server Error
+        x-order: 9
+      security:
+      - ApiKeyAuth: []
+      summary: Delete subtitle
+      tags:
+      - Videos
+  /videos/{videoId}/thumbnail:
+    put:
+      description: Update the thumbnail image for an existing video using API key
+        authentication
+      parameters:
+      - description: Video ID
+        example: V3idRI23XL
+        explode: false
+        in: path
+        name: videoId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              format: binary
+              title: thumbnail
+              type: string
+          multipart/form-data:
+            schema:
+              type: object
+        description: file
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Video"
+          description: Video with updated thumbnail
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Invalid file or request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Unauthorized - Invalid API key
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Access denied
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Video not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/github_com_qeeqez_api_internal_errors.ErrorResponse"
+          description: Upload or update failed
+        x-order: 6
+      security:
+      - ApiKeyAuth: []
+      summary: Update video thumbnail
+      tags:
+      - Videos
+components:
+  schemas:
+    AudioTrack:
+      example:
+        language_code: es-ES
+        size: 2048576
+        format: mp3
+        name: spanish_audio.mp3
+        created_at: 2025-12-21T12:00:00Z
+        id: 3n7v9k4m2p
+        label: Spanish
+        url: https://cdn.rixl.io/audio_tracks/project_id/video_id/es-ES-3n7v9k4m2p.mp3
+        video_id: x8n2p5v9k7
+      properties:
+        created_at:
+          example: 2025-12-21T12:00:00Z
+          type: string
+        format:
+          example: mp3
+          type: string
+        id:
+          example: 3n7v9k4m2p
+          type: string
+        label:
+          example: Spanish
+          type: string
+        language_code:
+          example: es-ES
+          type: string
+        name:
+          example: spanish_audio.mp3
+          type: string
+        size:
+          example: 2048576
+          type: integer
+        url:
+          example: https://cdn.rixl.io/audio_tracks/project_id/video_id/es-ES-3n7v9k4m2p.mp3
+          type: string
+        video_id:
+          example: x8n2p5v9k7
+          type: string
+    AudioTrackDelete:
+      example:
+        message: Audio track deleted
+        status: ok
+      properties:
+        message:
+          example: Audio track deleted
+          type: string
+        status:
+          example: ok
+          type: string
+    Chapter:
+      example:
+        end_time_sec: 145
+        duration_label: 02:25
+        start_time_sec: 0
+        title: Introduction
+      properties:
+        duration_label:
+          example: 02:25
+          type: string
+        end_time_sec:
+          example: 145
+          type: number
+        start_time_sec:
+          example: 0
+          type: number
+        title:
+          example: Introduction
+          type: string
+    File:
+      example:
+        size: 1048576
+        updated_at: 2025-01-01T00:00:00Z
+        project_id: Bq4y3QB38S
+        format: avif
+        name: original.jpeg
+        created_at: 2025-01-01T00:00:00Z
+        id: FpvLwyDMqu
+        url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+        status: ready
+      properties:
+        created_at:
+          example: 2025-01-01T00:00:00Z
+          type: string
+        format:
+          example: avif
+          type: string
+        id:
+          example: FpvLwyDMqu
+          type: string
+        name:
+          example: original.jpeg
+          type: string
+        project_id:
+          example: Bq4y3QB38S
+          type: string
+        size:
+          example: 1048576
+          type: integer
+        status:
+          $ref: "#/components/schemas/FileStatus"
+        updated_at:
+          example: 2025-01-01T00:00:00Z
+          type: string
+        url:
+          example: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+          type: string
+    FileStatus:
+      enum:
+      - uploading
+      - uploaded
+      - processing
+      - preparing
+      - ready
+      - error
+      example: ready
+      type: string
+      x-enum-comments:
+        FileStatusError: "error happened, file is corrupt"
+        FileStatusProcessing: asset is currently processing Other
+        FileStatusReady: file is ready to consume
+        FileStatusUploaded: upload finished
+        FileStatusUploading: upload is currently happening
+      x-enum-varnames:
+      - FileStatusUploading
+      - FileStatusUploaded
+      - FileStatusProcessing
+      - FileStatusPreparing
+      - FileStatusReady
+      - FileStatusError
+    Image:
+      example:
+        file:
+          size: 1048576
+          updated_at: 2025-01-01T00:00:00Z
+          project_id: Bq4y3QB38S
+          format: avif
+          name: original.jpeg
+          created_at: 2025-01-01T00:00:00Z
+          id: FpvLwyDMqu
+          url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+          status: ready
+        attached_to_video: false
+        width: 1920
+        id: PS5IMKoFLm
+        height: 1080
+        thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+      properties:
+        attached_to_video:
+          example: false
+          type: boolean
+        file:
+          $ref: "#/components/schemas/File"
+        height:
+          example: 1080
+          type: integer
+        id:
+          example: PS5IMKoFLm
+          type: string
+        thumbhash:
+          example: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+          type: string
+        width:
+          example: 1920
+          type: integer
+    Post:
+      example:
+        image:
+          file:
+            size: 1048576
+            updated_at: 2025-01-01T00:00:00Z
+            project_id: Bq4y3QB38S
+            format: avif
+            name: original.jpeg
+            created_at: 2025-01-01T00:00:00Z
+            id: FpvLwyDMqu
+            url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+            status: ready
+          attached_to_video: false
+          width: 1920
+          id: PS5IMKoFLm
+          height: 1080
+          thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+        plan_type: free
+        updated_at: 2025-01-01T00:00:00Z
+        creator_id: CR8y3QB38S
+        created_at: 2025-01-01T00:00:00Z
+        description: My awesome post
+        id: PS5IMKoFLm
+        video:
+          duration: 6.027456183070403
+          codec: codec
+          plan_type: free
+          file:
+            size: 1048576
+            updated_at: 2025-01-01T00:00:00Z
+            project_id: Bq4y3QB38S
+            format: avif
+            name: original.jpeg
+            created_at: 2025-01-01T00:00:00Z
+            id: FpvLwyDMqu
+            url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+            status: ready
+          chapters:
+          - end_time_sec: 145
+            duration_label: 02:25
+            start_time_sec: 0
+            title: Introduction
+          - end_time_sec: 145
+            duration_label: 02:25
+            start_time_sec: 0
+            title: Introduction
+          framerate: framerate
+          hdr: true
+          width: 5
+          bitrate: 0
+          id: id
+          poster:
+            file:
+              size: 1048576
+              updated_at: 2025-01-01T00:00:00Z
+              project_id: Bq4y3QB38S
+              format: avif
+              name: original.jpeg
+              created_at: 2025-01-01T00:00:00Z
+              id: FpvLwyDMqu
+              url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+              status: ready
+            attached_to_video: false
+            width: 1920
+            id: PS5IMKoFLm
+            height: 1080
+            thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+          height: 1
+        type: video
+        feed_id: FD4y3QB38S
+      properties:
+        created_at:
+          example: 2025-01-01T00:00:00Z
+          type: string
+        creator_id:
+          example: CR8y3QB38S
+          type: string
+        description:
+          example: My awesome post
+          type: string
+        feed_id:
+          example: FD4y3QB38S
+          type: string
+        id:
+          example: PS5IMKoFLm
+          type: string
+        image:
+          $ref: "#/components/schemas/Image"
+        plan_type:
+          $ref: "#/components/schemas/github_com_qeeqez_api_db_sqlc.PlanType"
+        type:
+          $ref: "#/components/schemas/PostType"
+        updated_at:
+          example: 2025-01-01T00:00:00Z
+          type: string
+        video:
+          $ref: "#/components/schemas/github_com_qeeqez_api_internal_videos.VideoResponse"
+    PostType:
+      enum:
+      - image
+      - video
+      - video
+      - image
+      example: video
+      type: string
+      x-enum-varnames:
+      - PostTypeImage
+      - PostTypeVideo
+    Subtitle:
+      example:
+        language_code: en-US
+        size: 1024
+        name: english_subs.srt
+        created_at: 2025-12-21T12:00:00Z
+        id: 5m9k8p2v7q
+        label: English
+        url: https://cdn.rixl.io/subtitles/project_id/video_id/en-US-5m9k8p2v7q.srt
+        video_id: x8n2p5v9k7
+      properties:
+        created_at:
+          example: 2025-12-21T12:00:00Z
+          type: string
+        id:
+          example: 5m9k8p2v7q
+          type: string
+        label:
+          example: English
+          type: string
+        language_code:
+          example: en-US
+          type: string
+        name:
+          example: english_subs.srt
+          type: string
+        size:
+          example: 1024
+          type: integer
+        url:
+          example: https://cdn.rixl.io/subtitles/project_id/video_id/en-US-5m9k8p2v7q.srt
+          type: string
+        video_id:
+          example: x8n2p5v9k7
+          type: string
+    SubtitleDelete:
+      example:
+        message: Subtitle deleted
+        status: ok
+      properties:
+        message:
+          example: Subtitle deleted
+          type: string
+        status:
+          example: ok
+          type: string
+    UpdateChaptersRequest:
+      properties:
+        chapters:
+          items:
+            $ref: "#/components/schemas/github_com_qeeqez_api_internal_videos_types.ChapterInput"
+          type: array
+          uniqueItems: false
+    UpdateChaptersResponse:
+      example:
+        chapters:
+        - end_time_sec: 145
+          duration_label: 02:25
+          start_time_sec: 0
+          title: Introduction
+        - end_time_sec: 145
+          duration_label: 02:25
+          start_time_sec: 0
+          title: Introduction
+        video_id: x8n2p5v9k7
+      properties:
+        chapters:
+          items:
+            $ref: "#/components/schemas/Chapter"
+          type: array
+          uniqueItems: false
+        video_id:
+          example: x8n2p5v9k7
+          type: string
+    Video:
+      example:
+        duration: 6.027456183070403
+        codec: codec
+        plan_type: free
+        file:
+          size: 1048576
+          updated_at: 2025-01-01T00:00:00Z
+          project_id: Bq4y3QB38S
+          format: avif
+          name: original.jpeg
+          created_at: 2025-01-01T00:00:00Z
+          id: FpvLwyDMqu
+          url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+          status: ready
+        chapters:
+        - end_time_sec: 145
+          duration_label: 02:25
+          start_time_sec: 0
+          title: Introduction
+        - end_time_sec: 145
+          duration_label: 02:25
+          start_time_sec: 0
+          title: Introduction
+        framerate: framerate
+        hdr: true
+        width: 5
+        bitrate: 0
+        id: id
+        poster:
+          file:
+            size: 1048576
+            updated_at: 2025-01-01T00:00:00Z
+            project_id: Bq4y3QB38S
+            format: avif
+            name: original.jpeg
+            created_at: 2025-01-01T00:00:00Z
+            id: FpvLwyDMqu
+            url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+            status: ready
+          attached_to_video: false
+          width: 1920
+          id: PS5IMKoFLm
+          height: 1080
+          thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+        height: 1
+      properties:
+        bitrate:
+          type: integer
+        chapters:
+          items:
+            $ref: "#/components/schemas/Chapter"
+          type: array
+          uniqueItems: false
+        codec:
+          type: string
+        duration:
+          type: number
+        file:
+          $ref: "#/components/schemas/File"
+        framerate:
+          type: string
+        hdr:
+          type: boolean
+        height:
+          type: integer
+        id:
+          type: string
+        plan_type:
+          $ref: "#/components/schemas/github_com_qeeqez_api_db_sqlc.PlanType"
+        poster:
+          $ref: "#/components/schemas/Image"
+        width:
+          type: integer
+    VideoUploadInitRequest:
+      properties:
+        file_name:
+          example: my-video.mp4
+          type: string
+        image_format:
+          example: jpg
+          type: string
+        video_quality:
+          $ref: "#/components/schemas/github_com_qeeqez_api_db_sqlc.VideoQuality"
+      required:
+      - file_name
+    github_com_qeeqez_api_db_sqlc.PlanType:
+      enum:
+      - free
+      - pro
+      - custom
+      - pay_as_you_go
+      example: free
+      type: string
+      x-enum-varnames:
+      - PlanTypeFree
+      - PlanTypePro
+      - PlanTypeCustom
+      - PlanTypePayAsYouGo
+    github_com_qeeqez_api_db_sqlc.VideoQuality:
+      enum:
+      - basic
+      - shorts
+      - pro
+      - basic
+      - shorts
+      - pro
+      example: shorts
+      type: string
+      x-enum-varnames:
+      - VideoQualityBasic
+      - VideoQualityShorts
+      - VideoQualityPro
+    github_com_qeeqez_api_internal_errors.ErrorResponse:
+      description: Standard error response returned by the API
+      example:
+        code: 400
+        details: The provided ID is not valid
+        error: Invalid request
+      properties:
+        code:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          description: Optional details about the error
+          example: The provided ID is not valid
+          type: string
+        error:
+          description: Error message describing what went wrong
+          example: Invalid request
+          type: string
+    github_com_qeeqez_api_internal_videos.VideoResponse:
+      example:
+        duration: 6.027456183070403
+        codec: codec
+        plan_type: free
+        file:
+          size: 1048576
+          updated_at: 2025-01-01T00:00:00Z
+          project_id: Bq4y3QB38S
+          format: avif
+          name: original.jpeg
+          created_at: 2025-01-01T00:00:00Z
+          id: FpvLwyDMqu
+          url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+          status: ready
+        chapters:
+        - end_time_sec: 145
+          duration_label: 02:25
+          start_time_sec: 0
+          title: Introduction
+        - end_time_sec: 145
+          duration_label: 02:25
+          start_time_sec: 0
+          title: Introduction
+        framerate: framerate
+        hdr: true
+        width: 5
+        bitrate: 0
+        id: id
+        poster:
+          file:
+            size: 1048576
+            updated_at: 2025-01-01T00:00:00Z
+            project_id: Bq4y3QB38S
+            format: avif
+            name: original.jpeg
+            created_at: 2025-01-01T00:00:00Z
+            id: FpvLwyDMqu
+            url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+            status: ready
+          attached_to_video: false
+          width: 1920
+          id: PS5IMKoFLm
+          height: 1080
+          thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+        height: 1
+      properties:
+        bitrate:
+          type: integer
+        chapters:
+          items:
+            $ref: "#/components/schemas/Chapter"
+          type: array
+          uniqueItems: false
+        codec:
+          type: string
+        duration:
+          type: number
+        file:
+          $ref: "#/components/schemas/File"
+        framerate:
+          type: string
+        hdr:
+          type: boolean
+        height:
+          type: integer
+        id:
+          type: string
+        plan_type:
+          $ref: "#/components/schemas/github_com_qeeqez_api_db_sqlc.PlanType"
+        poster:
+          $ref: "#/components/schemas/Image"
+        width:
+          type: integer
+    github_com_qeeqez_api_internal_videos_handler_upload.CompleteRequest:
+      properties:
+        video_id:
+          example: VI9VXQxWXQ
+          type: string
+    github_com_qeeqez_api_internal_videos_handler_upload.InitResponse:
+      example:
+        upload_expires: 1640995200
+        video_presigned_url: https://videos.rixl.com/Bq4y3QB38S/VI9VXQxWXQ?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAEXAMPLE%2F20250831%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250831T103000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b228dbec8c1008c80c162e1210e4503dceead1e4d4d55
+        poster_presigned_url: https://images.rixl.com/Bq4y3QB38S/PS5IMKoFLm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAEXAMPLE%2F20250831%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250831T103000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b228dbec8c1008c80c162e1210e4503dceead1e4d4d55
+        poster_id: PS5IMKoFLm
+        video_id: VI9VXQxWXQ
+      properties:
+        poster_id:
+          example: PS5IMKoFLm
+          type: string
+        poster_presigned_url:
+          example: https://images.rixl.com/Bq4y3QB38S/PS5IMKoFLm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAEXAMPLE%2F20250831%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250831T103000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b228dbec8c1008c80c162e1210e4503dceead1e4d4d55
+          type: string
+        upload_expires:
+          example: 1640995200
+          type: integer
+        video_id:
+          example: VI9VXQxWXQ
+          type: string
+        video_presigned_url:
+          example: https://videos.rixl.com/Bq4y3QB38S/VI9VXQxWXQ?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAEXAMPLE%2F20250831%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250831T103000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b228dbec8c1008c80c162e1210e4503dceead1e4d4d55
+          type: string
+    github_com_qeeqez_api_internal_videos_types.ChapterInput:
+      properties:
+        start_time_sec:
+          type: number
+        title:
+          type: string
+    internal_images_handler.completeRequest:
+      properties:
+        attached_to_video:
+          example: false
+          type: boolean
+        image_id:
+          example: PS5IMKoFLm
+          type: string
+    internal_images_handler.initResponse:
+      example:
+        upload_expires: 1640995200
+        presigned_url: https://images.rixl.com/Bq4y3QB38S/PS5IMKoFLm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAEXAMPLE%2F20250831%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250831T103000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b228dbec8c1008c80c162e1210e4503dceead1e4d4751b4d9787314fd6da4d55
+        image_id: PS5IMKoFLm
+      properties:
+        image_id:
+          example: PS5IMKoFLm
+          type: string
+        presigned_url:
+          example: https://images.rixl.com/Bq4y3QB38S/PS5IMKoFLm?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAEXAMPLE%2F20250831%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250831T103000Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=b228dbec8c1008c80c162e1210e4503dceead1e4d4751b4d9787314fd6da4d55
+          type: string
+        upload_expires:
+          example: 1640995200
+          type: integer
+    internal_images_handler.uploadInitRequest:
+      properties:
+        format:
+          example: jpg
+          type: string
+        name:
+          example: my-image.jpg
+          type: string
+    internal_videos_handler_subtitles.languageResponse:
+      example:
+        code: code
+        name: name
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+    pagination.PaginatedResponse-Image:
+      example:
+        pagination:
+          total: 1000
+          offset: 50
+          limit: 100
+        data:
+        - file:
+            size: 1048576
+            updated_at: 2025-01-01T00:00:00Z
+            project_id: Bq4y3QB38S
+            format: avif
+            name: original.jpeg
+            created_at: 2025-01-01T00:00:00Z
+            id: FpvLwyDMqu
+            url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+            status: ready
+          attached_to_video: false
+          width: 1920
+          id: PS5IMKoFLm
+          height: 1080
+          thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+        - file:
+            size: 1048576
+            updated_at: 2025-01-01T00:00:00Z
+            project_id: Bq4y3QB38S
+            format: avif
+            name: original.jpeg
+            created_at: 2025-01-01T00:00:00Z
+            id: FpvLwyDMqu
+            url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+            status: ready
+          attached_to_video: false
+          width: 1920
+          id: PS5IMKoFLm
+          height: 1080
+          thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+      properties:
+        data:
+          description: Data contains the slice of items for the current request.
+          items:
+            $ref: "#/components/schemas/Image"
+          type: array
+          uniqueItems: false
+        pagination:
+          $ref: "#/components/schemas/pagination.Pagination"
+    pagination.PaginatedResponse-Post:
+      example:
+        pagination:
+          total: 1000
+          offset: 50
+          limit: 100
+        data:
+        - image:
+            file:
+              size: 1048576
+              updated_at: 2025-01-01T00:00:00Z
+              project_id: Bq4y3QB38S
+              format: avif
+              name: original.jpeg
+              created_at: 2025-01-01T00:00:00Z
+              id: FpvLwyDMqu
+              url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+              status: ready
+            attached_to_video: false
+            width: 1920
+            id: PS5IMKoFLm
+            height: 1080
+            thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+          plan_type: free
+          updated_at: 2025-01-01T00:00:00Z
+          creator_id: CR8y3QB38S
+          created_at: 2025-01-01T00:00:00Z
+          description: My awesome post
+          id: PS5IMKoFLm
+          video:
+            duration: 6.027456183070403
+            codec: codec
+            plan_type: free
+            file:
+              size: 1048576
+              updated_at: 2025-01-01T00:00:00Z
+              project_id: Bq4y3QB38S
+              format: avif
+              name: original.jpeg
+              created_at: 2025-01-01T00:00:00Z
+              id: FpvLwyDMqu
+              url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+              status: ready
+            chapters:
+            - end_time_sec: 145
+              duration_label: 02:25
+              start_time_sec: 0
+              title: Introduction
+            - end_time_sec: 145
+              duration_label: 02:25
+              start_time_sec: 0
+              title: Introduction
+            framerate: framerate
+            hdr: true
+            width: 5
+            bitrate: 0
+            id: id
+            poster:
+              file:
+                size: 1048576
+                updated_at: 2025-01-01T00:00:00Z
+                project_id: Bq4y3QB38S
+                format: avif
+                name: original.jpeg
+                created_at: 2025-01-01T00:00:00Z
+                id: FpvLwyDMqu
+                url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+                status: ready
+              attached_to_video: false
+              width: 1920
+              id: PS5IMKoFLm
+              height: 1080
+              thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+            height: 1
+          type: video
+          feed_id: FD4y3QB38S
+        - image:
+            file:
+              size: 1048576
+              updated_at: 2025-01-01T00:00:00Z
+              project_id: Bq4y3QB38S
+              format: avif
+              name: original.jpeg
+              created_at: 2025-01-01T00:00:00Z
+              id: FpvLwyDMqu
+              url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+              status: ready
+            attached_to_video: false
+            width: 1920
+            id: PS5IMKoFLm
+            height: 1080
+            thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+          plan_type: free
+          updated_at: 2025-01-01T00:00:00Z
+          creator_id: CR8y3QB38S
+          created_at: 2025-01-01T00:00:00Z
+          description: My awesome post
+          id: PS5IMKoFLm
+          video:
+            duration: 6.027456183070403
+            codec: codec
+            plan_type: free
+            file:
+              size: 1048576
+              updated_at: 2025-01-01T00:00:00Z
+              project_id: Bq4y3QB38S
+              format: avif
+              name: original.jpeg
+              created_at: 2025-01-01T00:00:00Z
+              id: FpvLwyDMqu
+              url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+              status: ready
+            chapters:
+            - end_time_sec: 145
+              duration_label: 02:25
+              start_time_sec: 0
+              title: Introduction
+            - end_time_sec: 145
+              duration_label: 02:25
+              start_time_sec: 0
+              title: Introduction
+            framerate: framerate
+            hdr: true
+            width: 5
+            bitrate: 0
+            id: id
+            poster:
+              file:
+                size: 1048576
+                updated_at: 2025-01-01T00:00:00Z
+                project_id: Bq4y3QB38S
+                format: avif
+                name: original.jpeg
+                created_at: 2025-01-01T00:00:00Z
+                id: FpvLwyDMqu
+                url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+                status: ready
+              attached_to_video: false
+              width: 1920
+              id: PS5IMKoFLm
+              height: 1080
+              thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+            height: 1
+          type: video
+          feed_id: FD4y3QB38S
+      properties:
+        data:
+          description: Data contains the slice of items for the current request.
+          items:
+            $ref: "#/components/schemas/Post"
+          type: array
+          uniqueItems: false
+        pagination:
+          $ref: "#/components/schemas/pagination.Pagination"
+    pagination.PaginatedResponse-Video:
+      example:
+        pagination:
+          total: 1000
+          offset: 50
+          limit: 100
+        data:
+        - duration: 6.027456183070403
+          codec: codec
+          plan_type: free
+          file:
+            size: 1048576
+            updated_at: 2025-01-01T00:00:00Z
+            project_id: Bq4y3QB38S
+            format: avif
+            name: original.jpeg
+            created_at: 2025-01-01T00:00:00Z
+            id: FpvLwyDMqu
+            url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+            status: ready
+          chapters:
+          - end_time_sec: 145
+            duration_label: 02:25
+            start_time_sec: 0
+            title: Introduction
+          - end_time_sec: 145
+            duration_label: 02:25
+            start_time_sec: 0
+            title: Introduction
+          framerate: framerate
+          hdr: true
+          width: 5
+          bitrate: 0
+          id: id
+          poster:
+            file:
+              size: 1048576
+              updated_at: 2025-01-01T00:00:00Z
+              project_id: Bq4y3QB38S
+              format: avif
+              name: original.jpeg
+              created_at: 2025-01-01T00:00:00Z
+              id: FpvLwyDMqu
+              url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+              status: ready
+            attached_to_video: false
+            width: 1920
+            id: PS5IMKoFLm
+            height: 1080
+            thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+          height: 1
+        - duration: 6.027456183070403
+          codec: codec
+          plan_type: free
+          file:
+            size: 1048576
+            updated_at: 2025-01-01T00:00:00Z
+            project_id: Bq4y3QB38S
+            format: avif
+            name: original.jpeg
+            created_at: 2025-01-01T00:00:00Z
+            id: FpvLwyDMqu
+            url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+            status: ready
+          chapters:
+          - end_time_sec: 145
+            duration_label: 02:25
+            start_time_sec: 0
+            title: Introduction
+          - end_time_sec: 145
+            duration_label: 02:25
+            start_time_sec: 0
+            title: Introduction
+          framerate: framerate
+          hdr: true
+          width: 5
+          bitrate: 0
+          id: id
+          poster:
+            file:
+              size: 1048576
+              updated_at: 2025-01-01T00:00:00Z
+              project_id: Bq4y3QB38S
+              format: avif
+              name: original.jpeg
+              created_at: 2025-01-01T00:00:00Z
+              id: FpvLwyDMqu
+              url: https://images.rixl.com/Bq4y3QB38S/FpvLwyDMqu
+              status: ready
+            attached_to_video: false
+            width: 1920
+            id: PS5IMKoFLm
+            height: 1080
+            thumbhash: 1QcSHQRnh493V4dIh4eXh1h4kJUI
+          height: 1
+      properties:
+        data:
+          description: Data contains the slice of items for the current request.
+          items:
+            $ref: "#/components/schemas/Video"
+          type: array
+          uniqueItems: false
+        pagination:
+          $ref: "#/components/schemas/pagination.Pagination"
+    pagination.Pagination:
+      description: Pagination data for the request.
+      example:
+        total: 1000
+        offset: 50
+        limit: 100
+      properties:
+        limit:
+          default: 25
+          description: Maximum number of items to return in a single request.
+          example: 100
+          maximum: 100
+          minimum: 1
+          type: integer
+        offset:
+          default: 0
+          description: Starting point of the result set.
+          example: 50
+          minimum: 0
+          type: integer
+        total:
+          description: The total number of available items in the full list.
+          example: 1000
+          minimum: 0
+          type: integer
+    _images_upload_complete_post_request:
+      oneOf:
+      - type: object
+      - allOf:
+        - $ref: "#/components/schemas/internal_images_handler.completeRequest"
+        description: Upload completion request
+        summary: request
+    _images_upload_init_post_request:
+      oneOf:
+      - type: object
+      - allOf:
+        - $ref: "#/components/schemas/internal_images_handler.uploadInitRequest"
+        description: Upload initialization request
+        summary: request
+    _videos_upload_complete_post_request:
+      oneOf:
+      - type: object
+      - allOf:
+        - $ref: "#/components/schemas/github_com_qeeqez_api_internal_videos_handler_upload.CompleteRequest"
+        description: Video upload completion request
+        summary: request
+    _videos_upload_init_post_request:
+      oneOf:
+      - type: object
+      - allOf:
+        - $ref: "#/components/schemas/VideoUploadInitRequest"
+        description: Video upload initialization request
+        summary: request
+    _videos__videoId__audio_tracks_post_request:
+      oneOf:
+      - items:
+          type: string
+        title: files
+        type: array
+      - example: "en-US,es-ES"
+        title: language_codes
+        type: string
+      - example: "English,Spanish"
+        title: labels
+        type: string
+    _videos__videoId__audio_tracks__lang_code__put_request:
+      oneOf:
+      - format: binary
+        title: file
+        type: string
+      - example: English
+        title: label
+        type: string
+    _videos__videoId__chapters_put_request:
+      oneOf:
+      - type: object
+      - allOf:
+        - $ref: "#/components/schemas/UpdateChaptersRequest"
+        description: Chapters array
+        summary: request
+  securitySchemes:
+    ApiKeyAuth:
+      description: Internal API key for service-to-service communication.
+      in: header
+      name: X-API-Key
+      type: apiKey
+    Bearer:
+      description: Type "Bearer" followed by a space and JWT token.
+      in: header
+      name: Authorization
+      type: apiKey
