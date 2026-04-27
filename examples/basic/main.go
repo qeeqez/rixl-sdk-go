@@ -7,24 +7,17 @@ import (
 	"os"
 	"time"
 
-	abs "github.com/microsoft/kiota-abstractions-go"
 	kiotahttp "github.com/microsoft/kiota-http-go"
+	"github.com/qeeqez/rixl-sdk-go/examples/internal/exauth"
+	"github.com/qeeqez/rixl-sdk-go/examples/internal/exenv"
 	"github.com/qeeqez/rixl-sdk-go/sdk"
 )
 
-// Kiota's stock ApiKeyAuthenticationProvider rejects non-HTTPS URLs.
-type apiKeyHeaderAuth struct{ key string }
-
-func (a *apiKeyHeaderAuth) AuthenticateRequest(_ context.Context, req *abs.RequestInformation, _ map[string]any) error {
-	req.Headers.Add("X-API-Key", a.key)
-	return nil
-}
-
 func main() {
-	apiKey := mustEnv("RIXL_API_KEY")
-	baseURL := envOr("RIXL_BASE_URL", "http://localhost:8081")
+	apiKey := exenv.MustEnv("RIXL_API_KEY")
+	baseURL := exenv.EnvOr("RIXL_BASE_URL", "http://localhost:8081")
 
-	adapter, err := kiotahttp.NewNetHttpRequestAdapter(&apiKeyHeaderAuth{key: apiKey})
+	adapter, err := kiotahttp.NewNetHttpRequestAdapter(&exauth.APIKey{Key: apiKey})
 	if err != nil {
 		log.Fatalf("adapter: %v", err)
 	}
@@ -51,35 +44,6 @@ func main() {
 			log.Fatalf("get image %s: %v", id, err)
 		}
 		fmt.Printf("Image %s: %dx%d\n",
-			deref(image.GetId()), int32Or(image.GetWidth()), int32Or(image.GetHeight()))
+			exenv.Deref(image.GetId()), exenv.Int32Or(image.GetWidth()), exenv.Int32Or(image.GetHeight()))
 	}
-}
-
-func mustEnv(k string) string {
-	v := os.Getenv(k)
-	if v == "" {
-		log.Fatalf("missing %s", k)
-	}
-	return v
-}
-
-func envOr(k, def string) string {
-	if v := os.Getenv(k); v != "" {
-		return v
-	}
-	return def
-}
-
-func deref(p *string) string {
-	if p == nil {
-		return ""
-	}
-	return *p
-}
-
-func int32Or(p *int32) int32 {
-	if p == nil {
-		return 0
-	}
-	return *p
 }

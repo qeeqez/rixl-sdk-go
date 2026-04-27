@@ -8,11 +8,11 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
-	abs "github.com/microsoft/kiota-abstractions-go"
 	kiotahttp "github.com/microsoft/kiota-http-go"
+	"github.com/qeeqez/rixl-sdk-go/examples/internal/exauth"
+	"github.com/qeeqez/rixl-sdk-go/examples/internal/exenv"
 	"github.com/qeeqez/rixl-sdk-go/sdk"
 	"github.com/qeeqez/rixl-sdk-go/sdk/models"
 	apierr "github.com/qeeqez/rixl-sdk-go/sdk/models/github_com_qeeqez_api_internal_errors"
@@ -25,19 +25,11 @@ const (
 	sampleVideoURL = "https://download.samplelib.com/mp4/sample-5s.mp4"
 )
 
-// Kiota's stock ApiKeyAuthenticationProvider rejects non-HTTPS URLs.
-type apiKeyHeaderAuth struct{ key string }
-
-func (a *apiKeyHeaderAuth) AuthenticateRequest(_ context.Context, req *abs.RequestInformation, _ map[string]any) error {
-	req.Headers.Add("X-API-Key", a.key)
-	return nil
-}
-
 func main() {
-	apiKey := mustEnv("RIXL_API_KEY")
-	baseURL := envOr("RIXL_BASE_URL", "http://localhost:8081")
+	apiKey := exenv.MustEnv("RIXL_API_KEY")
+	baseURL := exenv.EnvOr("RIXL_BASE_URL", "http://localhost:8081")
 
-	adapter, err := kiotahttp.NewNetHttpRequestAdapter(&apiKeyHeaderAuth{key: apiKey})
+	adapter, err := kiotahttp.NewNetHttpRequestAdapter(&exauth.APIKey{Key: apiKey})
 	if err != nil {
 		log.Fatalf("adapter: %v", err)
 	}
@@ -67,9 +59,9 @@ func uploadImage(ctx context.Context, c *sdk.RixlClient) {
 	if err != nil {
 		log.Fatalf("image init: %s", explain(err))
 	}
-	fmt.Printf("init: image_id=%s\n", deref(initRes.GetImageId()))
+	fmt.Printf("init: image_id=%s\n", exenv.Deref(initRes.GetImageId()))
 
-	if err := putBytes(ctx, deref(initRes.GetPresignedUrl()), body, "image/jpeg"); err != nil {
+	if err := putBytes(ctx, exenv.Deref(initRes.GetPresignedUrl()), body, "image/jpeg"); err != nil {
 		log.Fatalf("PUT image: %v", err)
 	}
 
@@ -83,7 +75,7 @@ func uploadImage(ctx context.Context, c *sdk.RixlClient) {
 		log.Fatalf("image complete: %s", explain(err))
 	}
 	fmt.Printf("complete: id=%s %dx%d\n\n",
-		deref(image.GetId()), int32Or(image.GetWidth()), int32Or(image.GetHeight()))
+		exenv.Deref(image.GetId()), exenv.Int32Or(image.GetWidth()), exenv.Int32Or(image.GetHeight()))
 }
 
 func uploadVideo(ctx context.Context, c *sdk.RixlClient) {
@@ -107,12 +99,12 @@ func uploadVideo(ctx context.Context, c *sdk.RixlClient) {
 		log.Fatalf("video init: %s", explain(err))
 	}
 	fmt.Printf("init: video_id=%s poster_id=%s\n",
-		deref(initRes.GetVideoId()), deref(initRes.GetPosterId()))
+		exenv.Deref(initRes.GetVideoId()), exenv.Deref(initRes.GetPosterId()))
 
-	if err := putBytes(ctx, deref(initRes.GetVideoPresignedUrl()), video, "video/mp4"); err != nil {
+	if err := putBytes(ctx, exenv.Deref(initRes.GetVideoPresignedUrl()), video, "video/mp4"); err != nil {
 		log.Fatalf("PUT video: %v", err)
 	}
-	if err := putBytes(ctx, deref(initRes.GetPosterPresignedUrl()), poster, "image/jpeg"); err != nil {
+	if err := putBytes(ctx, exenv.Deref(initRes.GetPosterPresignedUrl()), poster, "image/jpeg"); err != nil {
 		log.Fatalf("PUT poster: %v", err)
 	}
 
@@ -123,7 +115,7 @@ func uploadVideo(ctx context.Context, c *sdk.RixlClient) {
 	if err != nil {
 		log.Fatalf("video complete: %s", explain(err))
 	}
-	fmt.Printf("complete: id=%s\n", deref(finished.GetId()))
+	fmt.Printf("complete: id=%s\n", exenv.Deref(finished.GetId()))
 }
 
 func download(ctx context.Context, url string) ([]byte, error) {
@@ -178,33 +170,4 @@ func explain(err error) string {
 		return fmt.Sprintf("HTTP %d: %s", code, msg)
 	}
 	return err.Error()
-}
-
-func mustEnv(k string) string {
-	v := os.Getenv(k)
-	if v == "" {
-		log.Fatalf("missing %s", k)
-	}
-	return v
-}
-
-func envOr(k, def string) string {
-	if v := os.Getenv(k); v != "" {
-		return v
-	}
-	return def
-}
-
-func deref(p *string) string {
-	if p == nil {
-		return ""
-	}
-	return *p
-}
-
-func int32Or(p *int32) int32 {
-	if p == nil {
-		return 0
-	}
-	return *p
 }
