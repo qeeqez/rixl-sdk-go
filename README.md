@@ -97,16 +97,34 @@ image, err := client.Images().ByImageId("PS5IMKoFLm").Get(ctx, nil)
 // Delete
 err = client.Images().ByImageId("PS5IMKoFLm").Delete(ctx, nil)
 
-// Presigned upload
-import imghandler "github.com/qeeqez/rixl-sdk-go/sdk/models/internal_images_handler"
+// Upload (init → PUT bytes to presigned URL → complete)
+import (
+    "bytes"
+    "net/http"
+    imghandler "github.com/qeeqez/rixl-sdk-go/sdk/models/internal_images_handler"
+)
 
-req := imghandler.NewUploadInitRequest()
+initReq := imghandler.NewUploadInitRequest()
 name, format := "photo.jpg", "jpeg"
-req.SetName(&name)
-req.SetFormat(&format)
+initReq.SetName(&name)
+initReq.SetFormat(&format)
 
-upload, err := client.Images().Upload().Init().Post(ctx, req, nil)
-fmt.Println(*upload.GetPresignedUrl())
+initRes, err := client.Images().Upload().Init().Post(ctx, initReq, nil)
+// initRes.GetImageId(), initRes.GetPresignedUrl()
+
+// Upload the raw bytes to the presigned URL with a standard HTTP client.
+req, _ := http.NewRequestWithContext(ctx, http.MethodPut,
+    *initRes.GetPresignedUrl(), bytes.NewReader(imageBytes))
+req.Header.Set("Content-Type", "image/jpeg")
+req.ContentLength = int64(len(imageBytes))
+http.DefaultClient.Do(req)
+
+// Finalize.
+completeReq := imghandler.NewCompleteRequest()
+completeReq.SetImageId(initRes.GetImageId())
+attached := false
+completeReq.SetAttachedToVideo(&attached)
+image, err := client.Images().Upload().Complete().Post(ctx, completeReq, nil)
 ```
 
 ### Videos
@@ -120,6 +138,25 @@ video, err := client.Videos().ByVideoId("VI9VXQxWXQ").Get(ctx, nil)
 
 // Subtitle tracks
 tracks, err := client.Videos().ByVideoId("VI9VXQxWXQ").Subtitles().Get(ctx, nil)
+
+// Upload (init returns presigned URLs for both the video and a poster image)
+import (
+    "github.com/qeeqez/rixl-sdk-go/sdk/models"
+    vidupload "github.com/qeeqez/rixl-sdk-go/sdk/models/github_com_qeeqez_api_internal_videos_handler_upload"
+)
+
+initReq := models.NewVideoUploadInitRequest()
+fileName, posterFormat := "clip.mp4", "jpeg"
+initReq.SetFileName(&fileName)
+initReq.SetImageFormat(&posterFormat)
+
+initRes, err := client.Videos().Upload().Init().Post(ctx, initReq, nil)
+// PUT video bytes to *initRes.GetVideoPresignedUrl()
+// PUT poster bytes to *initRes.GetPosterPresignedUrl()
+
+completeReq := vidupload.NewCompleteRequest()
+completeReq.SetVideoId(initRes.GetVideoId())
+video, err := client.Videos().Upload().Complete().Post(ctx, completeReq, nil)
 ```
 
 ## Pagination
@@ -182,7 +219,8 @@ Generated types live under `github.com/qeeqez/rixl-sdk-go/sdk/models/`:
 | `models` | `Imageable`, `Videoable`, `Postable`, `Fileable` |
 | `models/pagination` | `PaginatedResponseImageable`, `PaginatedResponseVideoable`, `PaginatedResponsePostable` |
 | `models/internal_images_handler` | Upload request and response payloads for images |
-| `models/internal_videos_handler` | Upload request and response payloads for videos |
+| `models/github_com_qeeqez_api_internal_videos_handler_upload` | Upload request and response payloads for videos |
+| `models/internal_videos_handler_subtitles` | Subtitle PUT payloads |
 | `models/github_com_qeeqez_api_internal_errors` | `ErrorResponse` |
 
 Getters return pointers; dereference before use.
@@ -198,16 +236,32 @@ defer cancel()
 image, err := client.Images().ByImageId("PS5IMKoFLm").Get(ctx, nil)
 ```
 
-## Development
+## Examples
 
-Regenerate from the OpenAPI spec (run from the monorepo root):
+Runnable demos live in [`examples/`](./examples):
+
+- `basic/` — list images and fetch one by ID (uses `X-API-Key`).
+- `advanced/` — full image and video upload pipelines (uses `X-API-Key`).
+- `bearer/` — mint a short-lived client JWT via `POST /clientauth/token`, then call with `Authorization: Bearer …`. Use this pattern when the consumer can't safely hold a long-lived API key (browser, mobile).
 
 ```bash
-brew install kiota
-bash sdk-manager/generate.sh rixl-sdk-go
-```
+export RIXL_BASE_URL=http://localhost:8081  # optional; defaults to api.rixl.com
+cd examples
 
-Generation uses `--clean-output`; do not hand-edit files under `sdk/`.
+# API key flows
+export RIXL_API_KEY=<your key>
+go run ./basic
+go run ./advanced
+
+# Client JWT flow
+# Mint your client_id and client_secret in the RIXL dashboard
+# (Organization → Client Auth → Create credential), then:
+export RIXL_CLIENT_ID=<copied from the dashboard>
+export RIXL_CLIENT_SECRET=<copied from the dashboard>
+export RIXL_PROJECT_ID=<project ID>
+export RIXL_SUBJECT=user-42
+go run ./bearer
+```
 
 ## Support
 
