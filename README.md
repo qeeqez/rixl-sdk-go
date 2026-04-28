@@ -238,29 +238,27 @@ image, err := client.Images().ByImageId("PS5IMKoFLm").Get(ctx, nil)
 
 ## Examples
 
-Runnable demos live in [`examples/`](./examples):
+Self-contained demos live in [`examples/`](./examples). Each file imports the SDK and runs one task — copy any of them into your own project as a starting point.
 
-- `basic/` — list images and fetch one by ID (uses `X-API-Key`).
-- `advanced/` — full image and video upload pipelines (uses `X-API-Key`).
-- `bearer/` — mint a short-lived client JWT via `POST /clientauth/token`, then call with `Authorization: Bearer …`. Use this pattern when the consumer can't safely hold a long-lived API key (browser, mobile).
+| Path | What it shows |
+|---|---|
+| `auth/` | both auth flows in one file — picks API key or client JWT from env |
+| `basic/images/` | list images, fetch one by `IMAGE_ID` |
+| `basic/videos/` | list videos, fetch one by `VIDEO_ID` |
+| `basic/feeds/` | read a feed — needs `RIXL_FEED_ID` |
+| `basic/posts/` | read one post — needs `RIXL_FEED_ID` and `RIXL_POST_ID` |
+| `advanced/images/` | full image upload (init → PUT → complete) |
+| `advanced/videos/` | full video upload (video + poster) |
+
+Credentials come from the RIXL dashboard (API key, or Client Auth → Create credential).
 
 ```bash
-export RIXL_BASE_URL=http://localhost:8081  # optional; defaults to api.rixl.com
+export RIXL_API_KEY=<copied from the dashboard>
+export RIXL_BASE_URL=http://localhost:8081   # optional; defaults to api.rixl.com
 cd examples
-
-# API key flows
-export RIXL_API_KEY=<your key>
-go run ./basic
-go run ./advanced
-
-# Client JWT flow
-# Mint your client_id and client_secret in the RIXL dashboard
-# (Organization → Client Auth → Create credential), then:
-export RIXL_CLIENT_ID=<copied from the dashboard>
-export RIXL_CLIENT_SECRET=<copied from the dashboard>
-export RIXL_PROJECT_ID=<project ID>
-export RIXL_SUBJECT=user-42
-go run ./bearer
+go run ./basic/images
+go run ./advanced/videos
+go run ./auth                                 # works with either credential type
 ```
 
 ## Support
