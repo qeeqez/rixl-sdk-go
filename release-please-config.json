@@ -3,7 +3,7 @@
     "packages": {
         ".": {
             "release-type": "go",
-            "package-name": "sdk-go"
+            "package-name": "rixl-go"
         }
     }
 }
