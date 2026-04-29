@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/rixlhq/rixl-go/compare/v0.3.1...v0.3.2) (2026-04-29)
+
+
+### Bug Fixes
+
+* upgrade Go version to 1.26.2 ([d15be73](https://github.com/rixlhq/rixl-go/commit/d15be73ad9cb718d913752d9d8ec27dd78af616b))
+
 ## [0.3.1](https://github.com/rixlhq/rixl-go/compare/v0.3.0...v0.3.1) (2026-04-29)
 
 
