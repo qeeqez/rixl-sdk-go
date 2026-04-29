@@ -10,8 +10,23 @@ permissions:
 
 jobs:
   release-please:
-    uses: rixlhq/github-actions/.github/workflows/release.yml@v1.9.5
-    with:
-      config-file: release-please-config.json
-      manifest-file: .release-please-manifest.json
-    secrets: inherit
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - uses: googleapis/release-please-action@v5
+        id: release
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  pkggodev:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Warm pkg.go.dev
+        run: |
+          tag='${{ needs.release-please.outputs.tag_name }}'
+          curl -fSL "https://proxy.golang.org/github.com/rixlhq/sdk-go/@v/${tag}.info" || true
